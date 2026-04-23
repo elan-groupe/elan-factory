@@ -16,7 +16,7 @@
     <a href="products.html">Продукты</a>
     <a href="capex.html">CAPEX</a>
     <a href="cashflow.html">Cash</a>
-    <a href="path.html">→ $250M</a>
+    <a href="path.html">→ $1B</a>
     <a href="brain.html">🧠 Brain</a>
   </nav>
 </header>
@@ -25,16 +25,9 @@
   <h1>Клиенты</h1>
   <div class="subtitle">Структура выручки, concentration risk, related-party vs external split. Главный сигнал для инвестора: доля независимых клиентов.</div>
 
-  <h2>Июнь 2025 (benchmark) vs март 2026</h2>
-  <div class="grid grid-2">
-    <div class="card">
-      <h3>Июнь 2025 — €107k</h3>
-      <div class="chart-wrap"><canvas id="junChart"></canvas></div>
-    </div>
-    <div class="card">
-      <h3>Март 2026 — €111k</h3>
-      <div class="chart-wrap"><canvas id="marChart"></canvas></div>
-    </div>
+  <h2>Структура выручки (март 2026, €111k)</h2>
+  <div class="card">
+    <div class="chart-wrap"><canvas id="marChart"></canvas></div>
   </div>
 
   <h2>Related vs External split</h2>
@@ -50,20 +43,19 @@
       <tbody></tbody>
     </table>
     <div class="callout">
-      Для инвестора важна доля внешних клиентов. Цель: <strong>≥70% external revenue</strong> к моменту DD. Сейчас вариация: июнь 75% external / март 40% external.
+      Для инвестора важна доля внешних клиентов. Цель: <strong>≥70% external revenue</strong> к моменту DD. Сейчас 60% выручки — связанные стороны (ФОП Кравченко, ELAN BEAUTY PL, ELAN COSMETICS UAE).
     </div>
   </div>
 
-  <h2>Топ клиенты — детально</h2>
+  <h2>Топ клиенты — март 2026</h2>
   <div class="card">
     <table id="topTable">
       <thead><tr>
         <th>Клиент</th>
         <th>Страна</th>
         <th>Тип</th>
-        <th class="num">Июнь'25 €</th>
-        <th class="num">Март'26 €</th>
-        <th class="num">Δ</th>
+        <th class="num">€</th>
+        <th class="num">% выручки</th>
       </tr></thead>
       <tbody></tbody>
     </table>
@@ -83,8 +75,7 @@
 const D = window.ELAN_DATA;
 const fmt = (v, s='€') => (Math.abs(v) >= 1e6 ? (v/1e6).toFixed(2)+'M' : Math.abs(v) >= 1e3 ? (v/1e3).toFixed(1)+'k' : v.toFixed(0)) + s;
 
-const jun = D.months[0];
-const mar = D.months[2];
+const mar = D.months[D.months.length - 1];
 
 const COLORS = ['#3b82f6', '#f5a524', '#22c55e', '#ef4444', '#a855f7', '#ec4899', '#eab308', '#6b7280'];
 
@@ -108,16 +99,15 @@ function donut(elId, monthData) {
     },
   });
 }
-donut('junChart', jun);
 donut('marChart', mar);
 
-// Related split
+// Related split (only months with meaningful revenue)
 function split(m) {
   const related = m.clients.filter(c => c.country.includes('related')).reduce((s, c) => s + c.amount, 0);
   const external = m.clients.filter(c => !c.country.includes('related')).reduce((s, c) => s + c.amount, 0);
-  return { related, external, pctRelated: related / (related + external) };
+  return { related, external, pctRelated: related / Math.max(related + external, 1) };
 }
-const splits = D.months.map(m => ({ label: m.label, ...split(m) }));
+const splits = D.months.filter(m => m.revenue > 10000).map(m => ({ label: m.label, ...split(m) }));
 document.querySelector('#relTable tbody').innerHTML = splits.map(s => {
   let health = 'red', pill = 'Высокая концентрация';
   if (s.pctRelated < 0.3) { health = 'green'; pill = 'Healthy'; }
@@ -131,49 +121,32 @@ document.querySelector('#relTable tbody').innerHTML = splits.map(s => {
   </tr>`;
 }).join('');
 
-// Top clients (join jun + mar)
-const allClients = new Map();
-jun.clients.forEach(c => allClients.set(c.name, { ...c, jun: c.amount, mar: 0 }));
-mar.clients.forEach(c => {
-  if (allClients.has(c.name)) allClients.get(c.name).mar = c.amount;
-  else allClients.set(c.name, { ...c, jun: 0, mar: c.amount });
-});
-// Fuzzy match LUNESI
-if (allClients.has('LUNESI UK') && allClients.has('LUNESI LTD (UK)')) {
-  const a = allClients.get('LUNESI UK');
-  const b = allClients.get('LUNESI LTD (UK)');
-  a.mar = b.amount;
-  allClients.delete('LUNESI LTD (UK)');
-}
-
-const topClients = [...allClients.values()].sort((a, b) => Math.max(b.jun, b.mar) - Math.max(a.jun, a.mar));
+// Top clients (March 2026 only)
+const topClients = [...mar.clients].sort((a, b) => b.amount - a.amount);
 document.querySelector('#topTable tbody').innerHTML = topClients.map(c => {
-  const delta = c.mar - c.jun;
   const type = c.country.includes('related') ? 'related' : 'external';
   return `<tr>
     <td>${c.name}</td>
     <td><span class="pill">${c.country}</span></td>
     <td><span class="pill ${type === 'related' ? 'red' : 'green'}">${type}</span></td>
-    <td class="num">${fmt(c.jun)}</td>
-    <td class="num">${fmt(c.mar)}</td>
-    <td class="num ${delta >= 0 ? 'pos' : 'neg'}">${delta >= 0 ? '+' : ''}${fmt(delta)}</td>
+    <td class="num">${fmt(c.amount)}</td>
+    <td class="num">${((c.amount / mar.revenue) * 100).toFixed(1)}%</td>
   </tr>`;
 }).join('');
 
-// HHI (Herfindahl-Hirschman Index)
+// HHI (Herfindahl-Hirschman Index) — only March
 function hhi(clients, total) {
   return clients.reduce((s, c) => s + Math.pow(c.amount / total * 100, 2), 0);
 }
-const hhiJun = hhi(jun.clients, jun.revenue);
 const hhiMar = hhi(mar.clients, mar.revenue);
 const interpret = h => h < 1500 ? 'Низкая' : h < 2500 ? 'Умеренная' : 'Высокая';
 document.getElementById('hhiBox').innerHTML = `
   <div class="grid grid-2">
-    <div class="kpi"><div class="label">HHI июнь 2025</div><div class="value">${hhiJun.toFixed(0)}</div><div class="sub">${interpret(hhiJun)} концентрация</div></div>
     <div class="kpi"><div class="label">HHI март 2026</div><div class="value">${hhiMar.toFixed(0)}</div><div class="sub">${interpret(hhiMar)} концентрация</div></div>
+    <div class="kpi"><div class="label">Топ-3 клиентов, % выручки</div><div class="value">${([...mar.clients].sort((a,b)=>b.amount-a.amount).slice(0,3).reduce((s,c)=>s+c.amount,0) / mar.revenue * 100).toFixed(0)}%</div><div class="sub">цель: &lt;50%</div></div>
   </div>
   <div class="callout">
-    HHI &lt; 1500 — здоровая диверсификация. В июне концентрация была высокая из-за доминирования LUNESI UK (€60k = 56%). В марте концентрация ниже — но за счёт связанных сторон (ФОП Кравченко, Польша, Дубаи).
+    HHI &lt; 1500 — здоровая диверсификация. В марте концентрация умеренная, но за счёт связанных сторон (ФОП Кравченко, Польша, Дубаи). Инвестор будет смотреть на HHI отдельно по внешним клиентам.
   </div>`;
 </script>
 </body>

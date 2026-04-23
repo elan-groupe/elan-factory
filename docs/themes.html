@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ELAN Factory · Выбор темы</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 40px 20px; background: #f5f5f5; color: #111; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 28px; margin-bottom: 8px; }
+  .subtitle { color: #666; margin-bottom: 40px; }
+  .themes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .theme-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; color: #111; display: block; }
+  .theme-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.15); }
+  .preview { height: 140px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; letter-spacing: 2px; }
+  .body { padding: 20px; }
+  .name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .desc { color: #666; font-size: 13px; line-height: 1.5; }
+  .p-dark { background: linear-gradient(135deg, #0b0f14 0%, #1c2530 100%); color: #f5a524; }
+  .p-tiffany { background: linear-gradient(135deg, #0abab5 0%, #81d8d0 100%); color: white; }
+  .p-minimal { background: #ffffff; color: #0f172a; border-bottom: 1px solid #e5e7eb; }
+  .p-paper { background: linear-gradient(135deg, #f3ede2 0%, #d9ccb4 100%); color: #3d2817; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>ELAN Factory — выбор темы</h1>
+  <div class="subtitle">Открой каждый вариант и выбери какой нравится. Скажи мне какую — и я применю её ко всем страницам.</div>
+
+  <div class="themes">
+    <a href="index.html" class="theme-card">
+      <div class="preview p-dark">⚙ DARK INDUSTRIAL</div>
+      <div class="body">
+        <div class="name">Dark Industrial (текущая)</div>
+        <div class="desc">Графитовый фон, янтарный акцент. Classic cockpit-стиль — Bloomberg terminal meets factory floor.</div>
+      </div>
+    </a>
+
+    <a href="index-tiffany.html" class="theme-card">
+      <div class="preview p-tiffany">◆ TIFFANY</div>
+      <div class="body">
+        <div class="name">Tiffany</div>
+        <div class="desc">Культовый tiffany blue (#0ABAB5). Светлая, элегантная, с оттенком luxury beauty — подходит для бренд-оболочки.</div>
+      </div>
+    </a>
+
+    <a href="index-minimal.html" class="theme-card">
+      <div class="preview p-minimal">→ MINIMAL</div>
+      <div class="body">
+        <div class="name">Minimal Light</div>
+        <div class="desc">Чистый белый, Inter шрифт, синий акцент. Как Stripe/Linear/Notion — современный SaaS.</div>
+      </div>
+    </a>
+
+    <a href="index-paper.html" class="theme-card">
+      <div class="preview p-paper">❖ PAPER</div>
+      <div class="body">
+        <div class="name">Paper / Бумажный журнал</div>
+        <div class="desc">Кремовая бумага, serif шрифт, коричневый акцент. Как финансовый отчёт банка начала века.</div>
+      </div>
+    </a>
+  </div>
+</div>
+</body>
+</html>

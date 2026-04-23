@@ -10,53 +10,15 @@ window.ELAN_DATA = {
     headcount: 40,
     ownerShare: 0.07, // user's equity share
     currentValuation: 7_000_000, // USD, user-provided
-    targetValuation: 250_000_000, // USD, 5-7 year exit target
+    targetValuation: 1_000_000_000, // USD, 5-7 year exit target ($1B)
     targetYears: [5, 7],
     brandLaunch: "2026-05", // own brand launch (шампунь, гель для душа)
     lastUpdate: "2026-04-23",
     fxEurUsd: 1.08, // approximate
   },
 
-  // Monthly P&L snapshots (EUR)
-  // Where revenue = SATIŞLAR, opex = ÖDEMELER total excluding CAPEX
+  // Monthly P&L snapshots (EUR) — 2026 only (per user request)
   months: [
-    {
-      month: "2025-06",
-      label: "Июнь 2025",
-      status: "baseline",
-      note: "Стационарный режим, прибыльный",
-      revenue: 107_307.75,
-      cashIn: 129_853.82,
-      cashOut: 71_343.30,
-      cogs: {
-        raw_materials: 15_946.43,
-        packaging: 16_032.43, // tara+kutu+etiket aggregated from AMBALAJ categories
-        shipping: 2_558.16,
-        customs: 3_040.17,
-        total: 37_577.19,
-      },
-      opex: {
-        factory: 4_100.43,
-        personnel: 25_307.12,
-        services: 5_974.96 - 3_040.17, // exclude customs
-        other: 1_423.77,
-        total: 33_765.92,
-      },
-      capex: 0, // june was before heavy investment phase
-      opProfit: 107_307.75 - 37_577.19 - 33_765.92,
-      opMargin: (107_307.75 - 37_577.19 - 33_765.92) / 107_307.75,
-      founderInjection: 500.33,
-      export: 100_319.42,
-      exportShare: 100_319.42 / 107_307.75,
-      clients: [
-        { name: "LUNESI UK", country: "UK", amount: 60_057.03 },
-        { name: "ФОП Кравченко", country: "UA (related)", amount: 16_922.40 },
-        { name: "USUPSO (Украина)", country: "UA", amount: 13_808.39 },
-        { name: "Польша (ELAN BEAUTY)", country: "PL (related)", amount: 9_531.60 },
-        { name: "Элан Козметик", country: "TR", amount: 2_058.35 },
-        { name: "COLORIST ACADEMY", country: "TR", amount: 4_929.98 },
-      ],
-    },
     {
       month: "2026-02",
       label: "Февраль 2026",
@@ -211,7 +173,7 @@ window.ELAN_DATA = {
     ],
   },
 
-  // Path-to-$250M scenarios
+  // Path-to-$1B scenarios (recalibrated)
   scenarios: {
     baseline: {
       name: "Baseline (только CMO)",
@@ -219,34 +181,43 @@ window.ELAN_DATA = {
       ebitda2030: 1_000_000,
       multiple: 8,
       exitValue: 8_000_000,
-      probability: 0.50,
+      probability: 0.35,
     },
     brand_moderate: {
       name: "Бренд умеренный успех",
-      rev2030: 20_000_000,
-      brandShare: 0.50,
-      ebitda2030: 4_000_000,
-      multiple: 10,
-      exitValue: 40_000_000,
+      rev2030: 30_000_000,
+      brandShare: 0.60,
+      ebitda2030: 6_000_000,
+      multiple: 12,
+      exitValue: 72_000_000,
       probability: 0.30,
     },
     brand_strong: {
-      name: "Бренд сильный рост",
-      rev2030: 50_000_000,
-      brandShare: 0.70,
-      ebitda2030: 12_000_000,
-      multiple: 10,
-      exitValue: 120_000_000,
-      probability: 0.15,
+      name: "Бренд сильный рост + DTC",
+      rev2030: 100_000_000,
+      brandShare: 0.80,
+      ebitda2030: 25_000_000,
+      multiple: 12,
+      exitValue: 300_000_000,
+      probability: 0.20,
     },
     strategic_exit: {
-      name: "Strategic exit (L'Oréal/EL/Shiseido)",
-      rev2030: 80_000_000,
-      brandShare: 0.80,
-      ebitda2030: 20_000_000,
-      multiple: 12,
-      exitValue: 240_000_000,
+      name: "Strategic exit (L'Oréal/EL/Puig) — $1B",
+      rev2030: 200_000_000,
+      brandShare: 0.85,
+      ebitda2030: 50_000_000,
+      multiple: 20,
+      exitValue: 1_000_000_000,
       probability: 0.05,
+    },
+    unicorn: {
+      name: "Unicorn (Drunk Elephant tier)",
+      rev2030: 250_000_000,
+      brandShare: 0.90,
+      ebitda2030: 70_000_000,
+      multiple: 14,
+      exitValue: 1_400_000_000,
+      probability: 0.02,
     },
   },
 

@@ -16,24 +16,23 @@
     <a href="products.html">Продукты</a>
     <a href="capex.html">CAPEX</a>
     <a href="cashflow.html">Cash</a>
-    <a href="path.html">→ $250M</a>
+    <a href="path.html">→ $1B</a>
     <a href="brain.html">🧠 Brain</a>
   </nav>
 </header>
 
 <main>
   <h1>P&amp;L — помесячный разбор</h1>
-  <div class="subtitle">Cash-basis P&L в EUR. Normalized EBITDA считаем по июню 2025 (стационарный режим без переезда/CAPEX).</div>
+  <div class="subtitle">Cash-basis P&L в EUR. Динамика февраль → март 2026 показывает восстановление после переезда на новую фабрику.</div>
 
   <h2>Полный P&L по месяцам (EUR)</h2>
   <div class="card">
     <table id="pnlTable">
       <thead><tr>
         <th>Статья</th>
-        <th class="num">Июнь 2025</th>
         <th class="num">Февраль 2026</th>
         <th class="num">Март 2026</th>
-        <th class="num">Δ март vs июнь</th>
+        <th class="num">Δ март vs февраль</th>
       </tr></thead>
       <tbody></tbody>
     </table>
@@ -45,7 +44,7 @@
   <h2>Структура COGS+OpEx (март 2026)</h2>
   <div class="card"><div class="chart-wrap"><canvas id="costBreakdown"></canvas></div></div>
 
-  <h2>Normalized annual run-rate (по июнь'25)</h2>
+  <h2>YTD 2026 annual run-rate</h2>
   <div class="card" id="normalizedPnl"></div>
 </main>
 
@@ -59,16 +58,15 @@ const fmt = (v, s='€') => (Math.abs(v) >= 1e6 ? (v/1e6).toFixed(2)+'M' : Math.
 const fmtPct = v => (v*100).toFixed(1) + '%';
 
 const m = D.months;
-const [jun, feb, mar] = [m[0], m[1], m[2]];
+const [feb, mar] = [m[0], m[1]];
 
 const row = (label, fn, cls = '', indent = 0) => {
-  const vals = [jun, feb, mar].map(fn);
-  const delta = vals[2] - vals[0];
+  const vals = [feb, mar].map(fn);
+  const delta = vals[1] - vals[0];
   return `<tr class="${cls}">
     <td style="padding-left:${12 + indent*16}px">${label}</td>
     <td class="num">${fmt(vals[0])}</td>
     <td class="num">${fmt(vals[1])}</td>
-    <td class="num">${fmt(vals[2])}</td>
     <td class="num ${delta >= 0 ? 'pos' : 'neg'}">${delta >= 0 ? '+' : ''}${fmt(delta)}</td>
   </tr>`;
 };
@@ -96,11 +94,10 @@ const rows = [
 // Fix % rows (re-render margins)
 const fixed = rows.map((r, i) => {
   if (r.includes('Gross margin') || r.includes('Operating margin')) {
-    const pcs = [jun, feb, mar].map(x => i === 7 ? (x.revenue - x.cogs.total) / Math.max(x.revenue, 1) : x.opMargin);
+    const pcs = [feb, mar].map(x => i === 7 ? (x.revenue - x.cogs.total) / Math.max(x.revenue, 1) : x.opMargin);
     return `<tr><td style="padding-left:12px" class="dim">${r.includes('Gross') ? 'Gross margin' : 'Operating margin'}</td>
       <td class="num ${pcs[0] >= 0 ? 'pos' : 'neg'}">${fmtPct(pcs[0])}</td>
       <td class="num ${pcs[1] >= 0 ? 'pos' : 'neg'}">${fmtPct(pcs[1])}</td>
-      <td class="num ${pcs[2] >= 0 ? 'pos' : 'neg'}">${fmtPct(pcs[2])}</td>
       <td class="num dim">—</td></tr>`;
   }
   return r;
@@ -151,23 +148,22 @@ new Chart(document.getElementById('costBreakdown'), {
   },
 });
 
-// Normalized annual
-const nJun = {
-  rev: jun.revenue * 12,
-  cogs: jun.cogs.total * 12,
-  opex: jun.opex.total * 12,
-  op: jun.opProfit * 12,
+// YTD 2026 annualized (by March — restored post-move)
+const nMar = {
+  rev: mar.revenue * 12,
+  cogs: mar.cogs.total * 12,
+  opex: mar.opex.total * 12,
+  op: mar.opProfit * 12,
 };
 document.getElementById('normalizedPnl').innerHTML = `
   <div class="grid grid-4">
-    <div class="kpi"><div class="label">Annual revenue</div><div class="value">${fmt(nJun.rev)}</div><div class="sub">june'25 × 12</div></div>
-    <div class="kpi"><div class="label">Annual COGS</div><div class="value">${fmt(nJun.cogs)}</div></div>
-    <div class="kpi"><div class="label">Annual OpEx</div><div class="value">${fmt(nJun.opex)}</div></div>
-    <div class="kpi"><div class="label">Annual Op Profit</div><div class="value pos">${fmt(nJun.op)}</div><div class="sub">${fmtPct(jun.opMargin)} margin</div></div>
+    <div class="kpi"><div class="label">Annual revenue (март × 12)</div><div class="value">${fmt(nMar.rev)}</div><div class="sub">run-rate по марту</div></div>
+    <div class="kpi"><div class="label">Annual COGS</div><div class="value">${fmt(nMar.cogs)}</div></div>
+    <div class="kpi"><div class="label">Annual OpEx</div><div class="value">${fmt(nMar.opex)}</div></div>
+    <div class="kpi"><div class="label">Annual Op Profit</div><div class="value ${nMar.op >= 0 ? 'pos' : 'neg'}">${fmt(nMar.op)}</div><div class="sub">${fmtPct(mar.opMargin)} margin</div></div>
   </div>
-  <div class="callout green">
-    Июнь'25 annualized: <strong>€${(nJun.rev/1000).toFixed(0)}k revenue / €${(nJun.op/1000).toFixed(0)}k op profit</strong>.
-    При multiple 8-10× → <strong>$${((nJun.op * 8 * 1.08)/1e6).toFixed(1)}-${((nJun.op * 10 * 1.08)/1e6).toFixed(1)}M</strong> только CMO going concern.
+  <div class="callout">
+    <strong>Март 2026 annualized:</strong> €${(nMar.rev/1000).toFixed(0)}k revenue, но op margin отрицательный из-за большого таможенного бэклога (€54k в марте). После нормализации таможни (IPR) картина вернётся к прибыли.
   </div>`;
 </script>
 </body>

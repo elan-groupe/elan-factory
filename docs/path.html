@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ELAN Factory · Путь к $250M</title>
+<title>ELAN Factory · Путь к $1B</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,14 +16,14 @@
     <a href="products.html">Продукты</a>
     <a href="capex.html">CAPEX</a>
     <a href="cashflow.html">Cash</a>
-    <a href="path.html" class="active">→ $250M</a>
+    <a href="path.html" class="active">→ $1B</a>
     <a href="brain.html">🧠 Brain</a>
   </nav>
 </header>
 
 <main>
-  <h1>Путь к $250M · Value Bridge</h1>
-  <div class="subtitle">Цель: продать группу с брендом ELAN за $250M за 5-7 лет (2030-2032). Текущая оценка $7-12M. Доля пользователя 7%.</div>
+  <h1>Путь к $1B · Value Bridge</h1>
+  <div class="subtitle">Цель: продать группу с брендом ELAN за $1 миллиард за 5-7 лет (2030-2032). Текущая оценка $7-12M. Доля пользователя 7%.</div>
 
   <h2>Текущая оценка — компонентная</h2>
   <div class="card">
@@ -59,7 +59,7 @@
   </div>
 </main>
 
-<footer>ELAN Factory Dashboard · Путь к $250M</footer>
+<footer>ELAN Factory Dashboard · Путь к $1B</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="data.js"></script>
@@ -134,13 +134,13 @@ document.getElementById('ev').innerHTML = `
       <div class="sub">~×${(evShare / v.userShare7pct.high).toFixed(0)} от сегодня</div>
     </div>
     <div class="kpi">
-      <div class="label">Вероятность $250M</div>
+      <div class="label">Вероятность $1B</div>
       <div class="value warn">${(D.scenarios.strategic_exit.probability*100).toFixed(0)}%</div>
       <div class="sub">нужен strategic exit + сильный бренд</div>
     </div>
   </div>
   <div class="callout green" style="margin-top:12px">
-    <strong>Вывод:</strong> даже без strategic exit ваша доля 7% имеет ожидаемую ценность ~$${(evShare/1e6).toFixed(1)}M — это ×${(evShare/v.userShare7pct.high).toFixed(0)} к текущей оценке $${(v.userShare7pct.high/1000).toFixed(0)}k. Целиться в $250M можно, но базовый план должен давать $50-100M exit с вероятностью ≥50%.
+    <strong>Вывод:</strong> даже без unicorn-сценария доля 7% имеет ожидаемую ценность ~$${(evShare/1e6).toFixed(1)}M — это ×${(evShare/v.userShare7pct.high).toFixed(0)} к текущей $${(v.userShare7pct.high/1000).toFixed(0)}k. $1B — реально для unicorn-беауty бренда (как Drunk Elephant $845M, Rare Beauty ~$2B valuation). Но базовый сценарий $100-300M реалистичнее.
   </div>`;
 </script>
 </body>
