@@ -7,7 +7,7 @@
 ## Структура
 
 ```
-site/
+docs/
 ├── index.html      # Cockpit — главные KPI, runway, путь к $250M
 ├── pnl.html        # P&L помесячно (EUR), gross/operating margin
 ├── clients.html    # Выручка по клиентам, related vs external, HHI
@@ -36,7 +36,11 @@ site/
 
 ## Запуск локально
 
-Просто откройте `site/index.html` в браузере. Без сборки, без зависимостей — только Chart.js с CDN.
+Просто откройте `docs/index.html` в браузере. Без сборки, без зависимостей — только Chart.js с CDN.
+
+## Online
+
+https://volodimirrykov-lang.github.io/elan-factory/
 
 ## GitHub
 
