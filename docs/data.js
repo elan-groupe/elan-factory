@@ -220,53 +220,74 @@ window.ELAN_DATA = {
     ],
   },
 
-  // Path-to-$1B scenarios (recalibrated)
+  // Path scenarios — anchored to real L'Oréal acquisitions (brand-with-manufacturing)
+  // These are BUYER's actual recent deals, not abstract multiples
   scenarios: {
     baseline: {
-      name: "Baseline (только CMO)",
+      name: "Baseline · CMO-only (no brand)",
       rev2030: 5_000_000,
       ebitda2030: 1_000_000,
       multiple: 8,
       exitValue: 8_000_000,
       probability: 0.35,
+      comparable: "Turkish regional CMO acquisitions · 5-8× EBITDA",
     },
-    brand_moderate: {
-      name: "Бренд умеренный успех",
-      rev2030: 30_000_000,
-      brandShare: 0.60,
-      ebitda2030: 6_000_000,
-      multiple: 12,
-      exitValue: 72_000_000,
-      probability: 0.30,
+    youth_to_people: {
+      // Youth To The People — clean beauty, production in US, bought by L'Oréal 2021
+      name: "Youth To The People path",
+      rev2030: 60_000_000,
+      brandShare: 0.70,
+      ebitda2030: 12_000_000,
+      multiple: 5,
+      exitValue: 300_000_000, // ~$300M deal (undisclosed, market est.)
+      probability: 0.25,
+      comparable: "YTTP · clean beauty · $300-400M exit · in-house production",
     },
-    brand_strong: {
-      name: "Бренд сильный рост + DTC",
-      rev2030: 100_000_000,
+    medik8: {
+      // Medik8 — UK skincare, in-house lab + manufacturing, bought 2024 (~€1B)
+      name: "Medik8 path (самый релевантный)",
+      rev2030: 150_000_000,
       brandShare: 0.80,
-      ebitda2030: 25_000_000,
-      multiple: 12,
-      exitValue: 300_000_000,
-      probability: 0.20,
+      ebitda2030: 40_000_000,
+      multiple: 25,
+      exitValue: 1_000_000_000, // ~€1B actual deal
+      probability: 0.15,
+      comparable: "Medik8 · derma-skincare · €1B · собственная lab + manufacturing",
     },
-    strategic_exit: {
-      name: "Strategic exit (L'Oréal/EL/Puig) — $1B",
-      rev2030: 200_000_000,
-      brandShare: 0.85,
+    cerave: {
+      // CeraVe — derma/pharma positioning, L'Oréal bought portfolio 2017 for $1.3B
+      name: "CeraVe path (derma + pharma base)",
+      rev2030: 250_000_000,
+      brandShare: 0.80,
       ebitda2030: 50_000_000,
-      multiple: 20,
-      exitValue: 1_000_000_000,
-      probability: 0.05,
+      multiple: 26,
+      exitValue: 1_300_000_000,
+      probability: 0.04,
+      comparable: "CeraVe · derma + clinical · $1.3B · pharma-grade manufacturing",
     },
-    unicorn: {
-      name: "Unicorn (Drunk Elephant tier)",
-      rev2030: 300_000_000,
+    aesop_tier: {
+      // Aesop — premium, $2.5B, premium craft positioning
+      name: "Aesop-tier (premium + craft)",
+      rev2030: 500_000_000,
       brandShare: 0.90,
       ebitda2030: 100_000_000,
-      multiple: 14,
-      exitValue: 1_400_000_000, // 100M × 14 = 1.4B ✓
-      probability: 0.02,
+      multiple: 25,
+      exitValue: 2_500_000_000,
+      probability: 0.01,
+      comparable: "Aesop · premium craft · $2.5B · собственная supply chain",
     },
   },
+
+  // L'Oréal acquisitions — real comparable deals with manufacturing
+  loreal_acquisitions: [
+    { name: "Aesop", year: 2023, value: 2_530_000_000, rev_est: 500_000_000, multiple_rev: "5.1×", note: "Premium craft · own supply chain" },
+    { name: "CeraVe (+AcneFree, Ambi)", year: 2017, value: 1_300_000_000, rev_est: 150_000_000, multiple_rev: "8.7×", note: "Pharma/derma manufacturing base (ex-Valeant)" },
+    { name: "IT Cosmetics", year: 2016, value: 1_200_000_000, rev_est: 180_000_000, multiple_rev: "6.7×", note: "Derma + make-up · частично собственное производство" },
+    { name: "Medik8", year: 2024, value: 1_000_000_000, rev_est: 100_000_000, multiple_rev: "10×", note: "★ Ближе всего: in-house lab + manufacturing" },
+    { name: "Magic Holdings (China)", year: 2014, value: 840_000_000, rev_est: 150_000_000, multiple_rev: "5.6×", note: "Emerging market · локальное производство" },
+    { name: "Youth To The People", year: 2021, value: 350_000_000, rev_est: 50_000_000, multiple_rev: "7×", note: "Clean beauty · in-house US production" },
+    { name: "Takami", year: 2024, value: null, rev_est: null, multiple_rev: "n/a", note: "Medical/dermatology + production · undisclosed" },
+  ],
 
   // Current valuation breakdown (my calculation as of Apr 2026)
   valuation: {

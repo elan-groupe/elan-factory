@@ -33,7 +33,7 @@
 
 <main>
   <h1>Путь к <em>миллиарду</em></h1>
-  <p class="subtitle">Цель: продать группу ELAN за $1B за 5–7 лет (2030–2032). Текущая оценка $7–12M. Ниже — компонентная оценка и probability-weighted сценарии.</p>
+  <p class="subtitle">Цель: продать группу ELAN за $1B за 5–7 лет (2030–2032). Текущая оценка $7–12M. Anchor — реальные сделки L'Oréal: <strong>Medik8</strong> (€1B, собственная лаборатория), <strong>CeraVe</strong> ($1.3B, pharma/derma база), <strong>Youth To The People</strong> ($300-400M, clean beauty). Это brand-with-manufacturing путь, не pure CMO.</p>
 
   <h2>Текущая оценка — по компонентам</h2>
   <div class="card">
@@ -47,7 +47,22 @@
     </table>
   </div>
 
-  <h2>Сценарии exit 2030–2032</h2>
+  <h2>Сравнимые сделки L'Oréal · последние 10 лет</h2>
+  <div class="card">
+    <table id="lorealTable">
+      <thead><tr>
+        <th>Бренд</th>
+        <th class="num">Год</th>
+        <th class="num">Deal value</th>
+        <th class="num">Revenue est.</th>
+        <th class="num">Multiple</th>
+        <th>Почему это релевантно ELAN</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <h2>Сценарии exit 2030–2032 · anchored to L'Oréal deals</h2>
   <div class="card"><div class="chart-wrap tall"><canvas id="scenarioChart"></canvas></div></div>
 
   <div class="grid grid-4" style="margin-top: var(--space-4)" id="scenarioCards"></div>
@@ -111,6 +126,17 @@ const fmtM = v => {
 const fmtPct = (v, d) => (v * 100).toFixed(d || 0) + '%';
 document.getElementById('updated').textContent = D.meta.lastUpdate;
 
+// L'Oréal comparables table
+document.querySelector('#lorealTable tbody').innerHTML = D.loreal_acquisitions.map(a => `
+  <tr>
+    <td><strong>${a.name}</strong></td>
+    <td class="num">${a.year}</td>
+    <td class="num">${a.value ? '$' + (a.value / 1e9 >= 1 ? (a.value / 1e9).toFixed(2) + 'B' : (a.value / 1e6).toFixed(0) + 'M') : 'n/a'}</td>
+    <td class="num dim">${a.rev_est ? '$' + (a.rev_est / 1e6).toFixed(0) + 'M' : '—'}</td>
+    <td class="num">${a.multiple_rev}</td>
+    <td class="dim" style="font-size:12px">${a.note}</td>
+  </tr>`).join('');
+
 const total = v.components.reduce((s, c) => s + c.value, 0);
 document.querySelector('#valTable tbody').innerHTML = v.components.map(c => `
   <tr>
@@ -156,11 +182,11 @@ new Chart(document.getElementById('scenarioChart'), {
 });
 
 document.getElementById('scenarioCards').innerHTML = scs.map(s => {
-  const share7 = s.exitValue * 0.07;
   return `<div class="kpi">
     <div class="label">${s.name}</div>
     <div class="value">${fmtM(s.exitValue)}</div>
     <div class="sub">Prob: ${fmtPct(s.probability)} · Rev: ${fmtM(s.rev2030)} · EBITDA ${fmtM(s.ebitda2030)}</div>
+    ${s.comparable ? `<div class="sub dim" style="margin-top:6px; font-size:11px">${s.comparable}</div>` : ''}
   </div>`;
 }).join('');
 
