@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ELAN Factory · Production</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style-themes.css">
+<script src="theme.js"></script>
+</head>
+<body>
+<header>
+  <a class="logo" href="index.html"><em>elan</em> factory</a>
+  <nav>
+    <a href="index.html">Dashboard</a>
+    <a href="pnl.html">P&amp;L</a>
+    <a href="clients.html">Клиенты</a>
+    <a href="products.html">Продукты</a>
+    <a href="production.html" class="active">Производство</a>
+    <a href="payroll.html">Персонал</a>
+    <a href="capex.html">CAPEX</a>
+    <a href="cashflow.html">Cash</a>
+    <a href="group.html">Группа</a>
+    <a href="risk.html">Риски</a>
+    <a href="ceo.html">CEO Brief</a>
+    <a href="path.html">Путь к $1B</a>
+    <a href="brain.html">Brain</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Производство · <em>gold standard</em></h1>
+  <p class="subtitle">Что Intercos / Cosmax / Fareva смотрят каждый день. Статус — что мы уже меряем, что нет, что надо начать собирать на заводе. Дашборд растёт вместе с зрелостью операций.</p>
+
+  <div class="grid grid-4">
+    <div class="kpi"><div class="label">Мерим</div><div class="value pos">2</div><div class="sub">есть данные</div></div>
+    <div class="kpi"><div class="label">Частично</div><div class="value warn">3</div><div class="sub">нужна доработка</div></div>
+    <div class="kpi"><div class="label">Не мерим</div><div class="value neg">22</div><div class="sub">начать сегодня</div></div>
+    <div class="kpi"><div class="label">Всего KPI</div><div class="value">27</div><div class="sub">gold standard CMO</div></div>
+  </div>
+
+  <h2>⚙ Производство · efficiency</h2>
+  <div class="card">
+    <table>
+      <thead><tr>
+        <th>KPI</th>
+        <th>Что это</th>
+        <th class="num">Industry target</th>
+        <th class="num">Сейчас</th>
+        <th>Статус</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><strong>OEE</strong></td><td>Overall Equipment Effectiveness · Availability × Performance × Quality, %</td><td class="num">&gt; 70%</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>Units / day</strong></td><td>физический output по каждой линии</td><td class="num">plan vs fact</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>Cycle time</strong></td><td>часы от заливки сырья до упаковки по SKU типу</td><td class="num">shampoo 2.5h</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>Changeover time</strong></td><td>часы на переключение между SKU (SMED)</td><td class="num">&lt; 45 min</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>First-time batch yield</strong></td><td>% партий прошедших QC с 1-го раза</td><td class="num">&gt; 95%</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>Scrap / rework rate</strong></td><td>% дефектных единиц</td><td class="num">&lt; 2%</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>Energy / unit</strong></td><td>кВт·ч на unit · для ESG</td><td class="num">benchmark</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>📦 Supply chain · inventory</h2>
+  <div class="card">
+    <table>
+      <thead><tr>
+        <th>KPI</th>
+        <th>Что это</th>
+        <th class="num">Industry target</th>
+        <th class="num">Сейчас</th>
+        <th>Статус</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><strong>Inventory value</strong></td><td>готовая + сырьё + упаковка, €</td><td class="num">—</td><td class="num">€695k</td><td><span class="pill green">мерим</span></td></tr>
+        <tr><td><strong>Inventory turns</strong></td><td>revenue / avg inventory · раз / год</td><td class="num">4–8×</td><td class="num dim">—</td><td><span class="pill amber">можно посчитать</span></td></tr>
+        <tr><td><strong>Days of supply (DOS)</strong></td><td>дней работы при текущем inventory</td><td class="num">30–60</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>Single-source %</strong></td><td>% ключевого сырья от 1 поставщика</td><td class="num">&lt; 40%</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>Supplier OTIF</strong></td><td>% поставок вовремя и полностью</td><td class="num">&gt; 90%</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>🚚 Commercial ops</h2>
+  <div class="card">
+    <table>
+      <thead><tr>
+        <th>KPI</th>
+        <th>Что это</th>
+        <th class="num">Industry target</th>
+        <th class="num">Сейчас</th>
+        <th>Статус</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><strong>OTIF</strong></td><td>On-Time In-Full · % заказов доставленных вовремя и полностью</td><td class="num">&gt; 95%</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>Lead time order→ship</strong></td><td>дней от получения заказа до отгрузки</td><td class="num">10–20 дней</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>Forecast accuracy</strong></td><td>% plan vs actual production</td><td class="num">&gt; 80%</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>Customer retention YoY</strong></td><td>% клиентов 2024, активных в 2025</td><td class="num">&gt; 85%</td><td class="num warn">partial</td><td><span class="pill amber">частично</span></td></tr>
+        <tr><td><strong>Win rate на тендерах</strong></td><td>% выигранных RFQ</td><td class="num">&gt; 20%</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>✅ Quality · compliance</h2>
+  <div class="card">
+    <table>
+      <thead><tr>
+        <th>KPI</th>
+        <th>Что это</th>
+        <th class="num">Industry target</th>
+        <th class="num">Сейчас</th>
+        <th>Статус</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><strong>Complaints / 100k units</strong></td><td>жалобы клиентов на 100k произведённых</td><td class="num">&lt; 5</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>Batch rejection rate</strong></td><td>% партий не прошедших QC</td><td class="num">&lt; 3%</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>Microbiological pass</strong></td><td>% тестов на микробиологию пройдены</td><td class="num">100%</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>GMP audit findings</strong></td><td>количество major findings на аудите</td><td class="num">0 major</td><td class="num warn">в процессе</td><td><span class="pill amber">GMP в процессе</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>💡 Innovation · R&amp;D</h2>
+  <div class="card">
+    <table>
+      <thead><tr>
+        <th>KPI</th>
+        <th>Что это</th>
+        <th class="num">Industry target</th>
+        <th class="num">Сейчас</th>
+        <th>Статус</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><strong>NPI launches / year</strong></td><td>новых продуктов в год</td><td class="num">15–30</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>Vitality index</strong></td><td>% revenue от SKU младше 3 лет</td><td class="num">&gt; 25%</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>R&amp;D spend / revenue</strong></td><td>% от выручки на R&amp;D</td><td class="num">2–4%</td><td class="num warn">~1%</td><td><span class="pill amber">частично</span></td></tr>
+        <tr><td><strong>Time-to-market</strong></td><td>дней brief → first batch</td><td class="num">&lt; 90 дней</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>👥 People · safety</h2>
+  <div class="card">
+    <table>
+      <thead><tr>
+        <th>KPI</th>
+        <th>Что это</th>
+        <th class="num">Industry target</th>
+        <th class="num">Сейчас</th>
+        <th>Статус</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><strong>Revenue / employee</strong></td><td>Group revenue / headcount, € / год</td><td class="num">€80–150k</td><td class="num">€63k*</td><td><span class="pill green">мерим</span></td></tr>
+        <tr><td><strong>Turnover rate</strong></td><td>% уволившихся / год</td><td class="num">&lt; 15%</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+        <tr><td><strong>LTIFR</strong></td><td>Lost Time Injury Frequency Rate</td><td class="num">&lt; 1.0</td><td class="num dim">—</td><td><span class="pill red">не мерим</span></td></tr>
+      </tbody>
+    </table>
+    <div class="callout" style="margin-top:var(--space-4)">
+      * Revenue/employee: group annualized €2.4M / 38 = €63k. Чуть ниже CMO-нормы; при выходе на €3M+ годовой revenue догоним до €80k+.
+    </div>
+  </div>
+
+  <h2>План действий · с чего начать собирать</h2>
+  <div class="card">
+    <table>
+      <thead><tr><th>Приоритет</th><th>KPI</th><th>Как начать</th><th>Усилие</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1</strong></td><td>Production log · daily</td><td>Excel лист по дням: SKU, units, line, shift, start-end time, scrap count. 10 мин/день для мастера.</td><td><span class="pill green">low</span></td></tr>
+        <tr><td><strong>2</strong></td><td>First-time batch yield</td><td>В том же логе — статус каждой партии (pass / rework / reject)</td><td><span class="pill green">low</span></td></tr>
+        <tr><td><strong>3</strong></td><td>OTIF</td><td>В CRM / таблице заказов — planned ship date vs actual</td><td><span class="pill green">low</span></td></tr>
+        <tr><td><strong>4</strong></td><td>OEE · baseline per line</td><td>Установить счётчики времени на реакторах. Discreet, €500–1000 инвестиция</td><td><span class="pill amber">mid</span></td></tr>
+        <tr><td><strong>5</strong></td><td>Customer complaints · CRM</td><td>Excel лог: дата, клиент, SKU, тип, решение, CAPA</td><td><span class="pill green">low</span></td></tr>
+        <tr><td><strong>6</strong></td><td>Supplier OTIF · кто поставляет вовремя</td><td>В учёте закупок: planned ETA vs actual ETA</td><td><span class="pill green">low</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="intercos-advice">
+    <div class="header">
+      <span class="title">Совет команды Intercos</span>
+      <span class="from">COO · Operations</span>
+    </div>
+    <ul>
+      <li><span class="num">01</span><span><strong>OEE baseline прямо сейчас.</strong> Не улучшаете то, что не меряете. Начните с ручного counter — excel + мастер с таймером. Через 3 месяца установите автоматические счётчики.</span></li>
+      <li><span class="num">02</span><span><strong>Daily production log · 10 минут.</strong> SKU · units · line · shift · scrap · batch status. Excel, потом Google Sheets, потом ERP. Это фундамент всего остального.</span></li>
+      <li><span class="num">03</span><span><strong>SOP для каждого critical process step.</strong> Пишите инструкции на турецком + английском. Новый сотрудник должен уметь работать через 2 дня.</span></li>
+      <li><span class="num">04</span><span><strong>Kaizen · 10 минут retro после каждой смены.</strong> Что пошло не так, как улучшить. Через 12 месяцев ваши production engineers станут 2× эффективнее.</span></li>
+      <li><span class="num">05</span><span><strong>Changeover SMED project.</strong> Сократить время переключения между SKU с 2 часов до 45 минут — главный рычаг для mixed production профиля CMO.</span></li>
+    </ul>
+  </div>
+</main>
+
+<footer>
+  <div>ELAN Factory · Production · gold standard CMO KPIs</div>
+  <div>reviewed by Intercos COO team · v1</div>
+</footer>
+</body>
+</html>

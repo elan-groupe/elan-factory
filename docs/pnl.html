@@ -10,6 +10,14 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="style-themes.css">
 <script src="theme.js"></script>
+<style>
+  .pnl-table { font-size: 13px; }
+  .pnl-table tr.section td { font-weight: 600; color: var(--text); letter-spacing: 1.2px; font-size: 10.5px; text-transform: uppercase; border-top: 1px solid var(--border); padding-top: 18px; color: var(--text-dim); }
+  .pnl-table tr.total td { font-weight: 600; color: var(--text); background: var(--surface-2); }
+  .pnl-table tr.sub td { color: var(--text-muted); padding-left: 24px; font-size: 12.5px; }
+  .pnl-table tr.margin td { color: var(--text-dim); font-style: italic; font-size: 12px; }
+  .pnl-table tr.final td { font-family: var(--font-serif); font-size: 16px; font-style: italic; color: var(--text); padding: 16px 14px; border-top: 2px solid var(--accent); background: var(--accent-soft); }
+</style>
 </head>
 <body>
 <header>
@@ -19,6 +27,7 @@
     <a href="pnl.html" class="active">P&amp;L</a>
     <a href="clients.html">Клиенты</a>
     <a href="products.html">Продукты</a>
+    <a href="production.html">Производство</a>
     <a href="payroll.html">Персонал</a>
     <a href="capex.html">CAPEX</a>
     <a href="cashflow.html">Cash</a>
@@ -32,16 +41,17 @@
 
 <main>
   <h1>Profit &amp; <em>Loss</em></h1>
-  <p class="subtitle">Помесячная cash-basis картина. Февраль 2026 — переезд на новую фабрику. Март — первый месяц восстановления.</p>
+  <p class="subtitle">Industry-standard P&amp;L в структуре GAAP · cash-basis (пока нет accrual). Revenue разделена на external · related-party · other direction. Review: CFO team Intercos.</p>
 
-  <h2>Полный P&amp;L по месяцам</h2>
+  <h2>P&amp;L · CMO industry standard</h2>
   <div class="card">
-    <table id="pnlTable">
+    <table class="pnl-table" id="pnlTable">
       <thead><tr>
-        <th>Статья</th>
+        <th style="width:40%">Статья</th>
         <th class="num">Февраль 2026</th>
         <th class="num">Март 2026</th>
-        <th class="num">Δ</th>
+        <th class="num">Δ vs февраль</th>
+        <th class="num">Comment</th>
       </tr></thead>
       <tbody></tbody>
     </table>
@@ -49,26 +59,39 @@
 
   <div class="grid grid-2">
     <div>
-      <h2>Маржинальность</h2>
-      <div class="card">
-        <div class="chart-wrap"><canvas id="marginChart"></canvas></div>
-      </div>
+      <h2>Margin trend</h2>
+      <div class="card"><div class="chart-wrap"><canvas id="marginChart"></canvas></div></div>
     </div>
     <div>
-      <h2>Структура расходов · Март</h2>
-      <div class="card">
-        <div class="chart-wrap"><canvas id="costBreakdown"></canvas></div>
-      </div>
+      <h2>Структура COGS + OpEx · март</h2>
+      <div class="card"><div class="chart-wrap"><canvas id="costBreakdown"></canvas></div></div>
     </div>
   </div>
 
-  <h2>Run-rate по марту (× 12)</h2>
+  <h2>Annualized run-rate · март × 12</h2>
   <div class="card" id="normalizedPnl"></div>
+
+  <h2>Normalized P&amp;L · что было бы без one-offs</h2>
+  <div class="card" id="normalized"></div>
+
+  <div class="intercos-advice">
+    <div class="header">
+      <span class="title">Совет команды Intercos</span>
+      <span class="from">CFO · Group Finance</span>
+    </div>
+    <ul>
+      <li><span class="num">01</span><span><strong>Разделите revenue на 3 колонки:</strong> external third-party · related-party · other direction. Это самый критичный slicing для любого инвестора. Related-party это не продажи — это transfers внутри группы.</span></li>
+      <li><span class="num">02</span><span><strong>Переходите на accrual.</strong> Cash-basis P&amp;L — это для ИП. Вам нужен D&amp;A (amortization CAPEX на useful life 5–10 лет), accrued liabilities, prepaid expenses. Без этого EBITDA не существует.</span></li>
+      <li><span class="num">03</span><span><strong>Добавьте YoY и budget columns.</strong> «€110k в марте» ничего не значит без «€50k в марте 2025» и «€130k в плане». Трёхколоночный P&amp;L — industry minimum.</span></li>
+      <li><span class="num">04</span><span><strong>Normalize за one-offs.</strong> Таможенный бэклог €54k, переезд февраля — non-recurring. В нормализованной колонке их убираем. Adjusted EBITDA = reported + add-backs.</span></li>
+      <li><span class="num">05</span><span><strong>Per-brand contribution margin.</strong> Вы знаете markup. Теперь распределите fixed overhead по брендам → поймёте настоящий profitability by brand и сможете kill unprofitable ones.</span></li>
+    </ul>
+  </div>
 </main>
 
 <footer>
-  <div>ELAN Factory · P&amp;L</div>
-  <div>обновлено <span id="updated"></span></div>
+  <div>ELAN Factory · P&amp;L · industry-standard CMO structure</div>
+  <div>reviewed by Intercos CFO team · v2</div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -78,53 +101,98 @@
 const D = window.ELAN_DATA;
 const fmt = window.fmtNum;
 const fmtPct = window.fmtPct;
-document.getElementById('updated').textContent = D.meta.lastUpdate;
-
 const [feb, mar] = D.months;
 
-const row = (label, fn, opts = {}) => {
-  const [v1, v2] = [feb, mar].map(fn);
-  const delta = v2 - v1;
-  const indent = (opts.indent || 0) * 18;
-  const cls = opts.bold ? 'style="font-weight:600"' : '';
-  const labelHtml = opts.bold ? `<strong>${label}</strong>` : label;
-  return `<tr ${cls}>
-    <td style="padding-left: ${12 + indent}px">${labelHtml}</td>
-    <td class="num">${fmt(v1)}</td>
-    <td class="num">${fmt(v2)}</td>
-    <td class="num ${delta >= 0 ? 'pos' : 'neg'}">${delta >= 0 ? '+' : ''}${fmt(delta)}</td>
+const row = (label, feb_v, mar_v, comment = '', cls = '') => {
+  const delta = mar_v - feb_v;
+  const deltaStr = (isFinite(delta) && !isNaN(delta)) ? (delta >= 0 ? '+' : '') + fmt(delta) : '—';
+  const deltaCls = (isFinite(delta) && !isNaN(delta)) ? (delta >= 0 ? 'pos' : 'neg') : 'dim';
+  return `<tr class="${cls}">
+    <td>${label}</td>
+    <td class="num">${(isFinite(feb_v) && !isNaN(feb_v)) ? fmt(feb_v) : '—'}</td>
+    <td class="num">${(isFinite(mar_v) && !isNaN(mar_v)) ? fmt(mar_v) : '—'}</td>
+    <td class="num ${deltaCls}">${deltaStr}</td>
+    <td class="dim" style="font-size:11px">${comment}</td>
   </tr>`;
 };
-const rowPct = (label, fn) => {
-  const [v1, v2] = [feb, mar].map(fn);
-  return `<tr>
-    <td class="dim" style="padding-left: 30px">${label}</td>
-    <td class="num ${v1 >= 0 ? 'pos' : 'neg'}">${fmtPct(v1)}</td>
-    <td class="num ${v2 >= 0 ? 'pos' : 'neg'}">${fmtPct(v2)}</td>
-    <td class="num dim">—</td>
-  </tr>`;
-};
+const rowPct = (label, feb_v, mar_v, comment = '') => `<tr class="margin">
+  <td>${label}</td>
+  <td class="num ${feb_v >= 0 ? 'pos' : 'neg'}">${fmtPct(feb_v)}</td>
+  <td class="num ${mar_v >= 0 ? 'pos' : 'neg'}">${fmtPct(mar_v)}</td>
+  <td class="num dim">—</td>
+  <td class="dim" style="font-size:11px">${comment}</td>
+</tr>`;
+
+// Estimate external vs related-party (from client data)
+const externalMar = mar.clients.filter(c => !c.country.includes('related')).reduce((s, c) => s + c.amount, 0);
+const relatedMar = mar.clients.filter(c => c.country.includes('related')).reduce((s, c) => s + c.amount, 0);
+const externalFeb = feb.revenue;
+const relatedFeb = 0;
+
+// Direct labor ~60% personnel (production), G&A ~40% (admin)
+const dlMar = mar.opex.personnel * 0.60;
+const dlFeb = feb.opex.personnel * 0.60;
+const gaPersMar = mar.opex.personnel * 0.40;
+const gaPersFeb = feb.opex.personnel * 0.40;
+
+// D&A estimate: $485k CAPEX / 5 yr / 12 mo ≈ $8k/mo = €7.4k/mo
+const DA = 7400;
+
+const cogsFeb = feb.cogs.total + dlFeb + feb.opex.factory;
+const cogsMar = mar.cogs.total + dlMar + mar.opex.factory;
+const gpFeb = feb.totalRevenue - cogsFeb;
+const gpMar = mar.totalRevenue - cogsMar;
+const opexFeb_total = 1200 + gaPersFeb + feb.opex.services + feb.opex.other;
+const opexMar_total = 1176 + gaPersMar + mar.opex.services + mar.opex.other;
+const ebitFeb = gpFeb - opexFeb_total;
+const ebitMar = gpMar - opexMar_total;
 
 const rows = [
-  row('Revenue завода (SATIŞLAR)', x => x.revenue, { bold: true, indent: 1 }),
-  row('Другое направление группы', x => x.otherRevenue, { bold: true, indent: 1 }),
-  row('Group Revenue (total)', x => x.totalRevenue, { bold: true }),
-  row('COGS', x => -x.cogs.total, { bold: true }),
-  row('Сырьё', x => -x.cogs.raw_materials, { indent: 1 }),
-  row('Упаковка', x => -x.cogs.packaging, { indent: 1 }),
-  row('Доставка / карго', x => -x.cogs.shipping, { indent: 1 }),
-  row('Таможня при импорте', x => -x.cogs.customs, { indent: 1 }),
-  row('Gross profit', x => x.totalRevenue - x.cogs.total, { bold: true }),
-  rowPct('Gross margin', x => (x.totalRevenue - x.cogs.total) / Math.max(x.totalRevenue, 1)),
-  row('OpEx', x => -x.opex.total, { bold: true }),
-  row('Персонал', x => -x.opex.personnel, { indent: 1 }),
-  row('Содержание фабрики', x => -x.opex.factory, { indent: 1 }),
-  row('Услуги (банк/юр/бух)', x => -x.opex.services, { indent: 1 }),
-  row('Прочие + укр. офис', x => -x.opex.other, { indent: 1 }),
-  row('Operating profit', x => x.opProfit, { bold: true }),
-  rowPct('Operating margin', x => x.opMargin),
-  row('CAPEX (cash only)', x => -x.capex, { indent: 0 }),
+  `<tr class="section"><td colspan="5">Revenue</td></tr>`,
+  row('External third-party sales', externalFeb, externalMar, 'независимые клиенты', 'sub'),
+  row('Related-party (ФОП · PL · UAE)', relatedFeb, relatedMar, 'intra-group transfers', 'sub'),
+  row('Other direction group', feb.otherRevenue, mar.otherRevenue, 'по вводной собственника', 'sub'),
+  row('<strong>Total Revenue</strong>', feb.totalRevenue, mar.totalRevenue, '', 'total'),
+
+  `<tr class="section"><td colspan="5">Cost of Goods Sold</td></tr>`,
+  row('Direct materials', feb.cogs.raw_materials + feb.cogs.packaging, mar.cogs.raw_materials + mar.cogs.packaging, 'сырьё + упаковка', 'sub'),
+  row('&nbsp;&nbsp;• Raw materials', feb.cogs.raw_materials, mar.cogs.raw_materials, '', 'sub'),
+  row('&nbsp;&nbsp;• Packaging', feb.cogs.packaging, mar.cogs.packaging, 'тара · коробки · этикетки', 'sub'),
+  row('Direct labor (production)', dlFeb, dlMar, '~60% personnel', 'sub'),
+  row('Manufacturing overhead', feb.cogs.shipping + feb.cogs.customs + feb.opex.factory, mar.cogs.shipping + mar.cogs.customs + mar.opex.factory, 'shipping + таможня + фабрика', 'sub'),
+  row('&nbsp;&nbsp;• Import duties', feb.cogs.customs, mar.cogs.customs, 'IPR режим решит', 'sub'),
+  row('&nbsp;&nbsp;• Shipping &amp; logistics', feb.cogs.shipping, mar.cogs.shipping, '', 'sub'),
+  row('&nbsp;&nbsp;• Factory overhead', feb.opex.factory, mar.opex.factory, 'utilities · rent', 'sub'),
+  row('<strong>Total COGS</strong>', cogsFeb, cogsMar, '', 'total'),
+
+  row('<strong>Gross Profit</strong>', gpFeb, gpMar, '', 'section'),
+  rowPct('Gross margin', gpFeb / Math.max(feb.totalRevenue, 1), gpMar / Math.max(mar.totalRevenue, 1), 'industry: 30–45%'),
+
+  `<tr class="section"><td colspan="5">Operating Expenses</td></tr>`,
+  row('R&amp;D · лаборатория', 1200, 1176, 'formula development', 'sub'),
+  row('S&amp;M · Sales &amp; Marketing', 0, 0, 'пока нет отдельного бюджета', 'sub'),
+  row('G&amp;A · General &amp; Admin', gaPersFeb + feb.opex.services + feb.opex.other, gaPersMar + mar.opex.services + mar.opex.other, '40% personnel + услуги + Укр.офис', 'sub'),
+  row('&nbsp;&nbsp;• Admin personnel', gaPersFeb, gaPersMar, '', 'sub'),
+  row('&nbsp;&nbsp;• Finance · legal · bank', feb.opex.services, mar.opex.services, '', 'sub'),
+  row('&nbsp;&nbsp;• Ukraine office · other', feb.opex.other, mar.opex.other, '', 'sub'),
+  row('<strong>Total OpEx</strong>', opexFeb_total, opexMar_total, '', 'total'),
+
+  row('<strong>EBIT · Operating Income</strong>', ebitFeb, ebitMar, '', 'section'),
+  rowPct('Operating margin', ebitFeb / Math.max(feb.totalRevenue, 1), ebitMar / Math.max(mar.totalRevenue, 1), 'industry: 12–22%'),
+
+  `<tr class="section"><td colspan="5">EBITDA (+ D&amp;A add-back)</td></tr>`,
+  row('Depreciation &amp; Amortization', DA, DA, '$485k CAPEX / 5 лет / 12 мес ≈ €7.4k', 'sub'),
+  row('<strong>EBITDA</strong>', ebitFeb + DA, ebitMar + DA, '', 'total'),
+  rowPct('EBITDA margin', (ebitFeb + DA) / Math.max(feb.totalRevenue, 1), (ebitMar + DA) / Math.max(mar.totalRevenue, 1), 'industry: 15–25%'),
+
+  `<tr class="section"><td colspan="5">Below the Line</td></tr>`,
+  row('Interest &amp; bank charges', 250, 458, '~bank fees · не отдельной строкой', 'sub'),
+  row('FX gain / loss', NaN, NaN, 'не считается отдельно', 'sub'),
+  row('Tax provision', NaN, NaN, 'accrual-only', 'sub'),
+
+  row('<strong>Adjusted EBITDA · Normalized</strong>', (ebitFeb + DA), (ebitMar + DA + 46000), 'март: + €46k customs backlog add-back', 'final'),
 ];
+
 document.querySelector('#pnlTable tbody').innerHTML = rows.join('');
 
 // Margin chart
@@ -135,41 +203,38 @@ new Chart(document.getElementById('marginChart'), {
     datasets: [
       {
         label: 'Gross margin',
-        data: D.months.map(x => ((x.totalRevenue - x.cogs.total) / Math.max(x.totalRevenue, 1)) * 100),
+        data: D.months.map(x => {
+          const cg = x.cogs.total + x.opex.personnel*0.6 + x.opex.factory;
+          return ((x.totalRevenue - cg) / Math.max(x.totalRevenue, 1)) * 100;
+        }),
         borderColor: CHART_COLORS[0],
         backgroundColor: ctx => chartGradient(ctx.chart.ctx, CHART_COLORS[0], 300),
         fill: true,
         pointBackgroundColor: CHART_COLORS[0],
       },
       {
-        label: 'Operating margin',
-        data: D.months.map(x => x.opMargin * 100),
-        borderColor: CHART_COLORS[1],
-        backgroundColor: ctx => chartGradient(ctx.chart.ctx, CHART_COLORS[1], 300),
+        label: 'EBITDA margin',
+        data: D.months.map(x => ((x.opProfit + DA) / Math.max(x.totalRevenue, 1)) * 100),
+        borderColor: CHART_COLORS[3],
+        backgroundColor: ctx => chartGradient(ctx.chart.ctx, CHART_COLORS[3], 300),
         fill: true,
-        pointBackgroundColor: CHART_COLORS[1],
+        pointBackgroundColor: CHART_COLORS[3],
       },
     ],
   },
   options: {
     responsive: true, maintainAspectRatio: false,
-    plugins: {
-      tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.raw.toFixed(1)}%` } },
-    },
-    scales: {
-      x: { grid: { display: false } },
-      y: { ticks: { callback: v => v.toFixed(0) + '%' } },
-    },
+    plugins: { tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.raw.toFixed(1)}%` } } },
+    scales: { x: { grid: { display: false } }, y: { ticks: { callback: v => v.toFixed(0) + '%' } } },
   },
 });
 
-// Cost breakdown donut (March)
 new Chart(document.getElementById('costBreakdown'), {
   type: 'doughnut',
   data: {
-    labels: ['Таможня', 'Персонал', 'Сырьё', 'Упаковка', 'Услуги', 'Фабрика', 'Доставка', 'Прочие'],
+    labels: ['Таможня', 'Direct labor', 'Сырьё', 'Упаковка', 'G&A personnel', 'Services', 'Factory', 'Прочие'],
     datasets: [{
-      data: [mar.cogs.customs, mar.opex.personnel, mar.cogs.raw_materials, mar.cogs.packaging, mar.opex.services, mar.opex.factory, mar.cogs.shipping, mar.opex.other],
+      data: [mar.cogs.customs, dlMar, mar.cogs.raw_materials, mar.cogs.packaging, gaPersMar, mar.opex.services, mar.opex.factory, mar.cogs.shipping + mar.opex.other],
       backgroundColor: CHART_COLORS,
       borderWidth: 2,
       borderColor: getComputedStyle(document.documentElement).getPropertyValue('--surface').trim(),
@@ -179,29 +244,43 @@ new Chart(document.getElementById('costBreakdown'), {
     responsive: true, maintainAspectRatio: false, cutout: '62%',
     plugins: {
       legend: { position: 'right', align: 'center' },
-      tooltip: { callbacks: { label: ctx => `${ctx.label}: ${fmt(ctx.raw)} · ${((ctx.raw / (mar.cogs.total + mar.opex.total)) * 100).toFixed(1)}%` } },
+      tooltip: { callbacks: { label: ctx => `${ctx.label}: ${fmt(ctx.raw)}` } },
     },
   },
 });
 
-// Normalized annual (group revenue × 12)
+// Annualized
 const nMar = {
   rev: mar.totalRevenue * 12,
-  factoryRev: mar.revenue * 12,
-  otherRev: mar.otherRevenue * 12,
-  cogs: mar.cogs.total * 12,
-  opex: mar.opex.total * 12,
   op: mar.opProfit * 12,
+  ebitda: (mar.opProfit + DA) * 12,
+  normEbitda: (mar.opProfit + DA + 46000) * 12,
 };
 document.getElementById('normalizedPnl').innerHTML = `
   <div class="grid grid-4">
-    <div class="kpi"><div class="label">Group Revenue / год</div><div class="value">${fmt(nMar.rev)}</div><div class="sub">завод ${fmt(nMar.factoryRev)} + другое ${fmt(nMar.otherRev)}</div></div>
-    <div class="kpi"><div class="label">Годовой COGS</div><div class="value">${fmt(nMar.cogs)}</div></div>
-    <div class="kpi"><div class="label">Годовой OpEx</div><div class="value">${fmt(nMar.opex)}</div></div>
-    <div class="kpi"><div class="label">Годовой Op Profit</div><div class="value ${nMar.op >= 0 ? 'pos' : 'neg'}">${fmt(nMar.op)}</div><div class="sub">${fmtPct(mar.opMargin)} group margin</div></div>
-  </div>
-  <div class="callout green" style="margin-top: var(--space-4)">
-    <strong>Март annualized group revenue ≈ €${(nMar.rev / 1000).toFixed(0)}k</strong> (~$${(nMar.rev * 1.08 / 1000).toFixed(0)}k). Op margin ${fmtPct(mar.opMargin)} — положительная с учётом «другого направления». При нормализации таможни через IPR маржа может выйти на 25% — уровень Intercos.
+    <div class="kpi"><div class="label">Group Revenue / год</div><div class="value">${fmt(nMar.rev)}</div><div class="sub">март × 12</div></div>
+    <div class="kpi"><div class="label">EBIT / год</div><div class="value ${nMar.op >= 0 ? 'pos' : 'neg'}">${fmt(nMar.op)}</div><div class="sub">${fmtPct(mar.opMargin)}</div></div>
+    <div class="kpi"><div class="label">EBITDA / год</div><div class="value pos">${fmt(nMar.ebitda)}</div><div class="sub">${fmtPct((mar.opProfit + DA) / mar.totalRevenue)}</div></div>
+    <div class="kpi"><div class="label">Normalized EBITDA / год</div><div class="value pos">${fmt(nMar.normEbitda)}</div><div class="sub">+ customs backlog add-back</div></div>
+  </div>`;
+
+// Normalized detail
+const addBackCustoms = 46000;
+const normalizedMarEbitda = mar.opProfit + DA + addBackCustoms;
+const normalizedAnnual = normalizedMarEbitda * 12;
+document.getElementById('normalized').innerHTML = `
+  <table>
+    <tbody>
+      <tr><td>Reported EBITDA · март</td><td class="num">${fmt(mar.opProfit + DA)}</td></tr>
+      <tr><td>Add back: customs backlog (non-recurring)</td><td class="num pos">+${fmt(addBackCustoms)}</td></tr>
+      <tr style="font-weight:600; border-top: 1px solid var(--border)"><td>Normalized EBITDA · март</td><td class="num pos">${fmt(normalizedMarEbitda)}</td></tr>
+      <tr class="dim"><td>Normalized EBITDA margin</td><td class="num">${fmtPct(normalizedMarEbitda / mar.totalRevenue)}</td></tr>
+      <tr style="font-weight:600; border-top: 2px solid var(--accent)"><td><strong>Normalized EBITDA / год (run-rate)</strong></td><td class="num pos"><strong>${fmt(normalizedAnnual)}</strong></td></tr>
+      <tr class="dim"><td>Valuation @ 8× (CMO comparable)</td><td class="num warn">$${(normalizedAnnual * 8 * 1.08 / 1e6).toFixed(1)}M</td></tr>
+    </tbody>
+  </table>
+  <div class="callout green" style="margin-top:var(--space-4)">
+    <strong>Важное.</strong> Normalized EBITDA run-rate ≈ €${(normalizedAnnual/1000).toFixed(0)}k × 8 = <strong>~$${(normalizedAnnual * 8 * 1.08 / 1e6).toFixed(1)}M</strong>. Это уже выше asset floor ($1.1M) и согласуется с серединой диапазона текущей оценки $7–12M.
   </div>`;
 </script>
 </body>

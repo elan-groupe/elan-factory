@@ -19,6 +19,7 @@
     <a href="pnl.html">P&amp;L</a>
     <a href="clients.html">Клиенты</a>
     <a href="products.html">Продукты</a>
+    <a href="production.html">Производство</a>
     <a href="payroll.html">Персонал</a>
     <a href="capex.html">CAPEX</a>
     <a href="cashflow.html">Cash</a>
@@ -57,16 +58,8 @@
       </table>
     </div>
     <div class="card">
-      <h3>Кассовые позиции — конец марта</h3>
-      <table id="cashTable">
-        <thead><tr>
-          <th>Счёт</th>
-          <th>Валюта</th>
-          <th class="num">Баланс</th>
-          <th class="num">€ эквив.</th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
+      <h3>Runway &amp; приоритеты недели</h3>
+      <div id="runwayBlock"></div>
     </div>
   </div>
 
@@ -180,19 +173,38 @@ document.querySelector('#monthsTable tbody').innerHTML = D.months.map(m => {
   </tr>`;
 }).join('');
 
-// ============ Cash positions ============
-document.querySelector('#cashTable tbody').innerHTML = D.cashPositions.map(p => `
-  <tr>
-    <td>${p.account}</td>
-    <td><span class="pill">${p.currency}</span></td>
-    <td class="num">${p.balance.toLocaleString('ru-RU', { maximumFractionDigits: 0 })}</td>
-    <td class="num">${p.eurEquiv.toLocaleString('ru-RU', { maximumFractionDigits: 0 })}</td>
-  </tr>`).join('');
+// ============ Runway & Priorities ============
 const totalCashEur = D.cashPositions.reduce((s, p) => s + p.eurEquiv, 0);
-document.querySelector('#cashTable tbody').innerHTML += `
-  <tr style="font-weight:600;border-top:1px solid var(--border)">
-    <td>ИТОГО</td><td></td><td class="num"></td><td class="num">${fmt(totalCashEur)}</td>
-  </tr>`;
+// Normalized factory monthly burn (without other direction, without one-off customs backlog)
+const factoryOpCost = latest.cogs.total + latest.opex.total;
+const factoryRev = latest.revenue;
+const factoryCashBurn = Math.max(factoryOpCost - factoryRev, 0); // burn without other-direction support
+const groupNet = latest.totalRevenue - factoryOpCost;
+const runwayMonths = groupNet >= 0 ? Infinity : totalCashEur / Math.abs(groupNet);
+
+document.getElementById('runwayBlock').innerHTML = `
+  <div style="padding: 12px 0; border-bottom: 1px dotted var(--border)">
+    <div style="font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px;">Total cash (все счета)</div>
+    <div style="font-size: 22px; font-weight: 500; color: var(--text); letter-spacing: -0.5px;">${fmt(totalCashEur)}</div>
+    <div style="font-size: 12px; color: var(--text-dim); margin-top: 2px;">${runwayMonths === Infinity ? '∞ · group cash flow позитивный' : runwayMonths.toFixed(1) + ' мес runway при group-level'}</div>
+  </div>
+  <div style="padding: 12px 0">
+    <div style="font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px;">Приоритеты недели</div>
+    <div style="display: grid; gap: 8px;">
+      <div style="display:grid; grid-template-columns: 22px 1fr; gap: 10px; font-size: 13px; line-height: 1.5; padding: 8px 0; border-bottom: 1px dotted var(--border);">
+        <span class="warn" style="font-family: var(--font-mono); font-size: 11px; padding-top: 2px;">01</span>
+        <span><strong>IPR режим · таможня.</strong> Подписать документы у мали мушавира Уфука. Эффект: минус €20–40k COGS/мес.</span>
+      </div>
+      <div style="display:grid; grid-template-columns: 22px 1fr; gap: 10px; font-size: 13px; line-height: 1.5; padding: 8px 0; border-bottom: 1px dotted var(--border);">
+        <span class="warn" style="font-family: var(--font-mono); font-size: 11px; padding-top: 2px;">02</span>
+        <span><strong>Долг китайцам $142k.</strong> План закрытия до конца Q2. Риск — задержка тубной машины и реактора-миксера.</span>
+      </div>
+      <div style="display:grid; grid-template-columns: 22px 1fr; gap: 10px; font-size: 13px; line-height: 1.5; padding: 8px 0;">
+        <span class="warn" style="font-family: var(--font-mono); font-size: 11px; padding-top: 2px;">03</span>
+        <span><strong>Запуск бренда в мае.</strong> Чек-лист: формула · упаковка · сайт · регистрации · первый маркетинговый удар.</span>
+      </div>
+    </div>
+  </div>`;
 
 // ============ Path to $1B ============
 const pctToTarget = (D.valuation.totalHigh / D.meta.targetValuation) * 100;
