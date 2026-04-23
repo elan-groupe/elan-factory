@@ -1,0 +1,123 @@
+{
+  "period": "2026-02",
+  "source_file": "RAPORLAR 2026 ŞUBAT1.xlsx",
+  "banks": {
+    "bank_emlak_tl": {
+      "label": "EMLAK BANK TL",
+      "start": 340.53,
+      "in": 4876712.36,
+      "out": 4000689.29,
+      "end": 876363.6000000006
+    },
+    "bank_vakif_tl": {
+      "label": "VAKIF BANK TL",
+      "start": 17.15,
+      "in": 5942473.24,
+      "out": 5911324.84,
+      "end": 31165.550000000745
+    },
+    "bank_kasa_tl": {
+      "label": "KASA TL",
+      "start": 15766.65,
+      "in": 229500.0,
+      "out": 234688.9,
+      "end": 10577.75
+    },
+    "bank_emlak_eur": {
+      "label": "EMLAK BANK EURO",
+      "start": 21446.21,
+      "in": 57986.18,
+      "out": 45595.5,
+      "end": 33836.89
+    },
+    "bank_vakif_eur": {
+      "label": "VAKIF BANK EURO",
+      "start": 40000.0,
+      "in": 40000.0,
+      "out": 75800.0,
+      "end": 4200.0
+    },
+    "bank_kasa_eur": {
+      "label": "KASA EURO",
+      "start": 0.0,
+      "in": 0.0,
+      "out": 0.0,
+      "end": 0.0
+    },
+    "bank_emlak_usd": {
+      "label": "EMLAK BANK USD",
+      "start": 12158.0,
+      "in": 0.0,
+      "out": 11340.0,
+      "end": 818.0
+    },
+    "bank_vakif_usd": {
+      "label": "VAKIF BANK USD",
+      "start": 66509.39,
+      "in": 0.0,
+      "out": 61249.39,
+      "end": 5260.0
+    },
+    "bank_kasa_usd": {
+      "label": "KASA USD",
+      "start": 2300.0,
+      "in": 0.0,
+      "out": 2300.0,
+      "end": 0.0
+    }
+  },
+  "totals": {
+    "founder_injection": 52931.770000000004,
+    "cash_in": 116112.68000000001,
+    "cash_out": 192211.76708144837,
+    "revenue": 3673.55,
+    "export_total": 2247.6
+  },
+  "clients": {
+    "australia": 2247.6
+  },
+  "costs": {
+    "cogs_materials_total": 26508.258906728937,
+    "cogs_materials_purchase": 15741.03890672894,
+    "cogs_packaging_jars": 1050.34,
+    "cogs_labels": 3390.02,
+    "cogs_boxes": 6116.4889067289405,
+    "cogs_raw": 10767.22,
+    "cogs_shipping_total": 6968.07,
+    "opex_factory_total": 4601.07,
+    "opex_personnel_total": 38566.649999999994,
+    "opex_personnel_salary": 35136.7,
+    "opex_personnel_sgk": 1199.21,
+    "opex_services_total": 22338.730454036882,
+    "opex_other_total": 2302.5099999999998,
+    "capex_through_opex": 87810.50772068255,
+    "opex_ukr_office": 2285.0,
+    "grand_total_payments": 192211.76708144837
+  },
+  "inventory": {
+    "finished_goods": {
+      "units": 34624.0,
+      "value": 102131.47316411548
+    },
+    "raw_materials": {
+      "units": 17045.0,
+      "value": 221069.92617709748
+    },
+    "jars": {
+      "units": 688392.0,
+      "value": 210600.01336950203
+    },
+    "boxes": {
+      "units": 445092.0,
+      "value": 61026.86901763224
+    },
+    "labels": {
+      "units": 504975.0,
+      "value": 44127.72389071886
+    },
+    "instructions": {
+      "units": 176640.0,
+      "value": 8717.399728734741
+    }
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "_comment": "Ручные данные: то что нельзя получить из xlsx (meta, scenarios, L'Oréal сделки, оценка). Правится вручную.",
+
+  "meta": {
+    "entity": "ELAN KİMYA ANONİM ŞİRKETİ",
+    "country": "Türkiye",
+    "headcount": 40,
+    "ownerShare": 0.07,
+    "currentValuation": 7000000,
+    "targetValuation": 1000000000,
+    "targetYears": [5, 7],
+    "brandLaunch": "2026-05",
+    "fxEurUsd": 1.08,
+    "fxTlEur": 51.10
+  },
+
+  "monthMetadata": {
+    "2026-02": {"label": "Февраль 2026", "status": "moving",   "note": "Переезд на новую фабрику — продажи почти 0, максимум CAPEX", "capex": 87810.51},
+    "2026-03": {"label": "Март 2026",    "status": "recovery", "note": "Восстановление после переезда, частично CAPEX ещё идёт"}
+  },
+
+  "clientMetadata": {
+    "fop_kravchenko_ua":  {"name": "ФОП Кравченко (UA)",       "country": "UA (related)"},
+    "elan_cosmetics_uae": {"name": "ELAN COSMETICS Дубаи",      "country": "UAE (related)"},
+    "elan_beauty_pl":     {"name": "ELAN BEAUTY Польша",        "country": "PL (related)"},
+    "australia":          {"name": "BROWED Австралия",           "country": "AU"},
+    "privates":           {"name": "Приваты (розн. бренды)",     "country": "various"},
+    "lunesi_uk":          {"name": "LUNESI UK",                  "country": "UK"},
+    "lunesi_uk_raye":     {"name": "LUNESI UK RAYE",             "country": "UK"},
+    "lunesi_cosmoprof":   {"name": "LUNESI COSMOPROF",           "country": "IT"},
+    "clab":               {"name": "C-LAB",                       "country": "UA"},
+    "bilobrov":           {"name": "BILOBROV",                   "country": "UA"},
+    "usupso":             {"name": "USUPSO",                     "country": "UA"},
+    "europa_belle":       {"name": "EUROPA BELLE",               "country": "PL"},
+    "elan_kozmetik_tr":   {"name": "ELAN KOZMETIK (розница TR)", "country": "TR"}
+  },
+
+  "scenarios": {
+    "baseline":        {"name": "Baseline · CMO-only (no brand)",     "rev2030": 5000000,   "ebitda2030": 1000000,  "multiple": 8,  "exitValue": 8000000,     "probability": 0.35, "comparable": "Turkish regional CMO acquisitions · 5-8× EBITDA"},
+    "youth_to_people": {"name": "Youth To The People path",           "rev2030": 60000000,  "ebitda2030": 12000000, "multiple": 5,  "exitValue": 300000000,   "probability": 0.25, "comparable": "YTTP · clean beauty · $300-400M exit · in-house production"},
+    "medik8":          {"name": "Medik8 path (самый релевантный)",    "rev2030": 150000000, "ebitda2030": 40000000, "multiple": 25, "exitValue": 1000000000,  "probability": 0.15, "comparable": "Medik8 · derma-skincare · €1B · собственная lab + manufacturing"},
+    "cerave":          {"name": "CeraVe path (derma + pharma base)",  "rev2030": 250000000, "ebitda2030": 50000000, "multiple": 26, "exitValue": 1300000000,  "probability": 0.04, "comparable": "CeraVe · derma + clinical · $1.3B · pharma-grade manufacturing"},
+    "aesop_tier":      {"name": "Aesop-tier (premium + craft)",       "rev2030": 500000000, "ebitda2030": 100000000,"multiple": 25, "exitValue": 2500000000,  "probability": 0.01, "comparable": "Aesop · premium craft · $2.5B · собственная supply chain"}
+  },
+
+  "loreal_acquisitions": [
+    {"name": "Aesop",                        "year": 2023, "value": 2530000000, "rev_est": 500000000, "multiple_rev": "5.1×", "note": "Premium craft · own supply chain"},
+    {"name": "CeraVe (+AcneFree, Ambi)",      "year": 2017, "value": 1300000000, "rev_est": 150000000, "multiple_rev": "8.7×", "note": "Pharma/derma manufacturing base (ex-Valeant)"},
+    {"name": "IT Cosmetics",                 "year": 2016, "value": 1200000000, "rev_est": 180000000, "multiple_rev": "6.7×", "note": "Derma + make-up · частично собственное производство"},
+    {"name": "Medik8",                       "year": 2024, "value": 1000000000, "rev_est": 100000000, "multiple_rev": "10×",  "note": "★ Ближе всего: in-house lab + manufacturing"},
+    {"name": "Magic Holdings (China)",       "year": 2014, "value": 840000000,  "rev_est": 150000000, "multiple_rev": "5.6×", "note": "Emerging market · локальное производство"},
+    {"name": "Youth To The People",          "year": 2021, "value": 350000000,  "rev_est": 50000000,  "multiple_rev": "7×",   "note": "Clean beauty · in-house US production"},
+    {"name": "Takami",                       "year": 2024, "value": null,       "rev_est": null,      "multiple_rev": "n/a",  "note": "Medical/dermatology + production · undisclosed"}
+  ],
+
+  "valuation": {
+    "method": "Mixed (asset + comparable + brand optionality)",
+    "components": [
+      {"name": "Net tangible assets (CAPEX + inventory - payables)",  "value": 1100000},
+      {"name": "CMO going concern (Jun'25 normalized EBITDA × 8×)",   "value": 3800000},
+      {"name": "Other direction group income ($1M × 3×)",              "value": 1250000},
+      {"name": "Brand optionality (launch May 2026)",                  "value": 2500000}
+    ],
+    "totalLow": 7000000,
+    "totalHigh": 12000000
+  },
+
+  "productShipments": [
+    {"brand": "USUPSO",           "sku_count": 7,  "units": 6645,  "cost": 8769.60, "price": 23839.82, "markup": 1.72},
+    {"brand": "C-LAB",            "sku_count": 15, "units": 12849, "cost": 8448.35, "price": 12851.52, "markup": 0.52},
+    {"brand": "BILOBROV",         "sku_count": 3,  "units": 1269,  "cost": 6282.80, "price": 9113.28,  "markup": 0.45},
+    {"brand": "LUNESI UK",        "sku_count": 9,  "units": 3644,  "cost": 8503.60, "price": 9848.88,  "markup": 0.16},
+    {"brand": "LUNESI COSMOPROF", "sku_count": 14, "units": 2215,  "cost": 2625.00, "price": 3512.60,  "markup": 0.34},
+    {"brand": "LUNESI UK RAYE",   "sku_count": 14, "units": 380,   "cost": 1000.00, "price": 1054.15,  "markup": 0.05}
+  ],
+
+  "capex_summary": {
+    "budget": 550000,
+    "spent": 485553,
+    "remaining_budget": 64447,
+    "pending_to_chinese": 141760,
+    "breakdown": [
+      {"month": "2025-09", "ремонт": 23436, "оборудование": 14054},
+      {"month": "2025-10", "ремонт": 57565, "оборудование": 57652},
+      {"month": "2025-11", "ремонт": 38970, "оборудование": 67892},
+      {"month": "2025-12", "ремонт": 29074, "оборудование": 99517},
+      {"month": "2026-01", "ремонт": 0,     "оборудование": 50789},
+      {"month": "2026-02", "ремонт": 0,     "оборудование": 102700},
+      {"month": "2026-03", "ремонт": 0,     "оборудование": 21942}
+    ],
+    "majorItems": [
+      {"name": "Тубная машина",             "status": "оплачена 50%, долг 29 891 EUR", "value": 43077},
+      {"name": "Грузовой лифт",             "status": "оплачен полностью",             "value": 19512},
+      {"name": "Водоочистка",               "status": "оплачена",                      "value": 28100},
+      {"name": "Система пожаротушения",     "status": "оплачена 50%, долг 11 904",     "value": 35573},
+      {"name": "Реактор 250л",              "status": "оплачен",                       "value": 19586},
+      {"name": "Реактор 100л",              "status": "оплачен",                       "value": 2000},
+      {"name": "Реактор миксер 1т",         "status": "оплачен 50%",                   "value": 11509},
+      {"name": "Гомогенизатор миксер",       "status": "оплачен",                       "value": 11200},
+      {"name": "Погрузчик",                 "status": "оплачен",                       "value": 21276},
+      {"name": "Поломоющая Karcher",         "status": "оплачена",                      "value": 4537},
+      {"name": "Пресс для разлива",         "status": "50% оплачен",                   "value": 3369},
+      {"name": "Сашедные машины",           "status": "оплачены",                      "value": 6771},
+      {"name": "Система видеонаблюдения",    "status": "установлена",                   "value": 2400},
+      {"name": "Система пожарной сигнализации","status": "установлена",                 "value": 5611},
+      {"name": "Вентиляция",                "status": "установлена",                   "value": 10948},
+      {"name": "Автомобиль (трансфер)",     "status": "куплен",                        "value": 35162},
+      {"name": "Мебель",                    "status": "оплачена",                      "value": 16733},
+      {"name": "Офисная техника",           "status": "куплена",                       "value": 1406}
+    ]
+  },
+
+  "payroll_march": {
+    "period": "Март 2026",
+    "totals": {
+      "rate_tl": 1191800,
+      "comp_tl": 168800,
+      "base_total_tl": 1360600,
+      "bonus_tl": 463478.82,
+      "grand_total_tl": 1824078.82,
+      "grand_total_eur": 35696.27,
+      "sgk_eur": 1384.86,
+      "personnel_opex_eur": 41833.51
+    },
+    "staff": [
+      {"name": "Vitalii Obukhov",  "role": "Экспорт/ВЭД",             "rate": 42640, "comp": 0,    "bonus": 129075.19, "total": 171715.19, "note": "+1.5% export bonus"},
+      {"name": "Taner Esirkış",    "role": "Технолог",                "rate": 44000, "comp": 6000, "bonus": 35314.35,  "total": 85314.35,  "note": "+1.5% export bonus"},
+      {"name": "Larysa Ivanina",   "role": "Technologist / QC",       "rate": 42640, "comp": 0,    "bonus": 40919.93,  "total": 83559.93,  "note": "+0.4% export bonus"},
+      {"name": "Osman Aksu",       "role": "Production manager",      "rate": 44000, "comp": 6000, "bonus": 30000,     "total": 80000},
+      {"name": "Larisa Isakova (UA)","role": "Менеджер Украина",      "rate": 28200, "comp": 6000, "bonus": 41835,     "total": 76035},
+      {"name": "Hidayet Şahin",    "role": "Старший технолог",        "rate": 44000, "comp": 6000, "bonus": 25314.35,  "total": 75314.35,  "note": "+1.5% export bonus"},
+      {"name": "Leyla Uruşanov",   "role": "Production",              "rate": 39000, "comp": 6000, "bonus": 25000,     "total": 70000},
+      {"name": "Tamara Vorobeva",  "role": "Lab / R&D Украина",       "rate": 42640, "comp": 0,    "bonus": 24110,     "total": 66750,     "note": "доплата до $1000"},
+      {"name": "Olena Petik",      "role": "Lab / R&D Украина",       "rate": 42640, "comp": 0,    "bonus": 24110,     "total": 66750,     "note": "доплата до $1500"},
+      {"name": "Emre Altan",       "role": "Production",              "rate": 44000, "comp": 6000, "bonus": 15000,     "total": 65000},
+      {"name": "Vahdettin Bektaş", "role": "Production",              "rate": 28200, "comp": 3800, "bonus": 24000,     "total": 56000},
+      {"name": "Yıldırım Yumuşak", "role": "Production",              "rate": 39000, "comp": 6000, "bonus": 10000,     "total": 55000},
+      {"name": "Evgeniia Altach",  "role": "Админ / менеджер",        "rate": 42640, "comp": 0,    "bonus": 0,         "total": 42640},
+      {"name": "Önder Öz",         "role": "Production",              "rate": 28200, "comp": 3800, "bonus": 8000,      "total": 40000},
+      {"name": "Alina Bastık",     "role": "Production",              "rate": 39000, "comp": 6000, "bonus": 0,         "total": 45000},
+      {"name": "Sabina (UA)",      "role": "Менеджер Украина",        "rate": 28200, "comp": 6000, "bonus": 10800,     "total": 45000}
+    ],
+    "otherStaffCount": 22
+  },
+
+  "agKassaNotes": {
+    "2025-12": "Транш 263k EUR от TG/Гузенко",
+    "2026-02": "Переезд",
+    "2026-04": "Текущий (неполный)"
+  }
+}

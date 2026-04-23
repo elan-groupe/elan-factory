@@ -4,21 +4,47 @@
 
 **Цель:** собрать финансовую картину группы (TR/PL/UAE/UA), отслеживать путь к целевой оценке **$250M за 5-7 лет**, поддерживать DD-готовность перед exit.
 
-## Структура
+## Архитектура данных (Level 0)
 
 ```
-docs/
-├── index.html      # Cockpit — главные KPI, runway, путь к $250M
-├── pnl.html        # P&L помесячно (EUR), gross/operating margin
-├── clients.html    # Выручка по клиентам, related vs external, HHI
-├── products.html   # Юнит-экономика брендов, inventory
-├── capex.html      # CAPEX tracker (оборудование + стройка)
-├── cashflow.html   # Cash движения ELAN KIMYA + касса АГ
-├── path.html       # Value Bridge к $250M, сценарии exit
-├── brain.html      # 🧠 AI knowledge base — читать первым
-├── data.js         # Унифицированные данные (JSON)
-└── style.css       # Индустриальная dark-тема
+_raw/                       # локально, в git НЕ коммитится (xlsx от бухгалтера)
+  ├── RAPORLAR YYYY MONTH.xlsx
+  ├── УЧЕТ НАЛИЧНЫХ АГ.xlsx
+  ├── Зарплата Month.xlsx
+  └── Расходы на стройку.xlsx
+
+data/                       # В git — аудит-след
+  ├── constants.json        # Ручные данные: meta, scenarios, loreal, valuation, payroll, capex
+  └── snapshots/
+      ├── 2026-02.json      # ← parse_raporlar.py "_raw/RAPORLAR 2026 ŞUBAT.xlsx" 2026-02
+      ├── 2026-03.json
+      └── ag_kassa.json     # ← parse_kassa_ag.py "_raw/УЧЕТ НАЛИЧНЫХ.xlsx"
+
+scripts/                    # В git
+  ├── parse_raporlar.py     # ИТОГ sheet → JSON snapshot
+  ├── parse_kassa_ag.py     # 5 monthly sheets → JSON
+  └── build_data.py         # snapshots/* + constants.json → docs/data.js
+
+docs/                       # В git — сайт
+  ├── index.html / pnl.html / clients.html / products.html / capex.html
+  ├── cashflow.html / path.html / ceo.html / brain.html / risk.html
+  ├── data.js               # ← build_data.py (AUTO, не править руками)
+  └── style.css · style-themes.css · theme.js · chart-theme.js
 ```
+
+## Как обновить данные когда бухгалтер прислал новый xlsx
+
+1. Клади файл в `_raw/` (замени существующий или добавь новый месяц)
+2. Прогнать парсеры:
+   ```bash
+   python scripts/parse_raporlar.py "_raw/RAPORLAR 2026 АПРЕЛЬ.xlsx" 2026-04
+   python scripts/parse_kassa_ag.py  "_raw/УЧЕТ НАЛИЧНЫХ 2026 АГ.xlsx"
+   ```
+3. Пересобрать сайт:
+   ```bash
+   python scripts/build_data.py
+   ```
+4. Закоммитить `data/snapshots/*.json` + `docs/data.js` → push → Pages деплоит.
 
 ## Текущие данные
 

@@ -1,0 +1,134 @@
+{
+  "period": "2026-03",
+  "source_file": "RAPORLAR 2026 MART Kimya (1).xlsx",
+  "banks": {
+    "bank_emlak_tl": {
+      "label": "EMLAK BANK TL",
+      "start": 876363.6,
+      "in": 3486461.38,
+      "out": 4346151.16,
+      "end": 16673.819999999367
+    },
+    "bank_vakif_tl": {
+      "label": "VAKIF BANK TL",
+      "start": 34405.55,
+      "in": 3760684.99,
+      "out": 3781553.19,
+      "end": 13537.350000000093
+    },
+    "bank_kasa_tl": {
+      "label": "KASA TL",
+      "start": 10557.75,
+      "in": 367600.0,
+      "out": 302911.0,
+      "end": 75246.75
+    },
+    "bank_emlak_eur": {
+      "label": "EMLAK BANK EURO",
+      "start": 33836.89,
+      "in": 65765.06,
+      "out": 78074.61,
+      "end": 21527.339999999997
+    },
+    "bank_vakif_eur": {
+      "label": "VAKIF BANK EURO",
+      "start": 4200.0,
+      "in": 40000.0,
+      "out": 27230.0,
+      "end": 16970.0
+    },
+    "bank_kasa_eur": {
+      "label": "KASA EURO",
+      "start": 0.0,
+      "in": 1000.0,
+      "out": 1000.0,
+      "end": 0.0
+    },
+    "bank_emlak_usd": {
+      "label": "EMLAK BANK USD",
+      "start": 818.0,
+      "in": 0.0,
+      "out": 0.0,
+      "end": 818.0
+    },
+    "bank_vakif_usd": {
+      "label": "VAKIF BANK USD",
+      "start": 5260.0,
+      "in": 41330.0,
+      "out": 41440.0,
+      "end": 5150.0
+    },
+    "bank_kasa_usd": {
+      "label": "KASA USD",
+      "start": 0.0,
+      "in": 2000.0,
+      "out": 0.0,
+      "end": 2000.0
+    }
+  },
+  "totals": {
+    "founder_injection": 92246.34000000001,
+    "cash_in": 165291.19,
+    "cash_out": 174832.93069724407,
+    "revenue": 110592.5589872474,
+    "export_total": 44289.0
+  },
+  "clients": {
+    "fop_kravchenko_ua": 21716.0,
+    "elan_cosmetics_uae": 2729.5,
+    "elan_beauty_pl": 18062.7,
+    "australia": 1780.8,
+    "privates": 58874.973999999995,
+    "lunesi_uk_raye": 1054.15,
+    "lunesi_cosmoprof": 3512.6,
+    "lunesi_uk": 8503.599999999999,
+    "clab": 12851.519999999999,
+    "bilobrov": 9113.28,
+    "usupso": 23839.824
+  },
+  "costs": {
+    "cogs_materials_total": 37890.95,
+    "cogs_materials_purchase": 16780.97,
+    "cogs_packaging_jars": 2445.77,
+    "cogs_labels": 5090.81,
+    "cogs_boxes": 5881.27,
+    "cogs_raw": 21109.98,
+    "cogs_shipping_total": 4595.11,
+    "opex_factory_total": 4846.200000000001,
+    "opex_personnel_total": 41833.50690872663,
+    "opex_personnel_salary": 35696.0,
+    "opex_personnel_sgk": 1384.856908726627,
+    "opex_services_total": 59492.65378851741,
+    "customs_duty": 53738.15,
+    "opex_other_total": 1599.1699999999998,
+    "capex_through_opex": 19512.22,
+    "opex_ukr_office": 3045.2,
+    "grand_total_payments": 174832.93069724407
+  },
+  "inventory": {
+    "finished_goods": {
+      "units": 44544.0,
+      "value": 85779.61538461539
+    },
+    "raw_materials": {
+      "units": 11603.0,
+      "value": 202641.07692307694
+    },
+    "jars": {
+      "units": 523053.0,
+      "value": 232213.90384615384
+    },
+    "boxes": {
+      "units": 491852.0,
+      "value": 106696.96153846153
+    },
+    "labels": {
+      "units": 541004.0,
+      "value": 50555.6923076923
+    },
+    "instructions": {
+      "units": 378184.0,
+      "value": 16843.0
+    }
+  }
+}

@@ -1,11 +1,17 @@
+# Private business data (xlsx от бухгалтера) — лежит локально, не в git
 _raw/
 *.xlsx
 ~$*.xlsx
+
+# Throw-away debug output
 out*.txt
 feb_out.txt
-*.py
+
+# Editors / OS
 .DS_Store
 Thumbs.db
 node_modules/
 .vscode/
 .idea/
+__pycache__/
+*.pyc
