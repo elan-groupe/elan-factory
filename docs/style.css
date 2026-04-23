@@ -128,7 +128,14 @@ header .logo em {
   font-weight: 500;
 }
 
-header nav { display: flex; gap: 0; margin-left: var(--space-4); overflow-x: auto; }
+header nav {
+  display: flex; gap: 0;
+  margin-left: var(--space-4);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+header nav::-webkit-scrollbar { display: none; }
 
 header nav a {
   position: relative;
@@ -219,12 +226,45 @@ h3 {
 .grid-4 { grid-template-columns: repeat(4, 1fr); }
 
 @media (max-width: 1100px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 800px) { .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 800px) {
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .grid-2 { grid-template-columns: 1fr; }
+  h1 { font-size: 36px; }
+  main { padding: var(--space-8) var(--space-5) var(--space-12); }
+}
 @media (max-width: 600px) {
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
   main { padding: var(--space-6) var(--space-4) var(--space-12); }
-  h1 { font-size: 32px; }
-  header { padding: 0 var(--space-4); }
+  h1 { font-size: 28px; letter-spacing: -1px; }
+  .subtitle { font-size: 14px; margin-bottom: var(--space-6); }
+  header { padding: 0 var(--space-4); height: 56px; }
+  header nav { margin-left: 0; gap: 0; }
+  header nav a { padding: 0 var(--space-3); font-size: 12px; height: 56px; }
+  header .logo { font-size: 18px; }
+  header .pill-date { display: none; }
+  .card, .kpi { padding: var(--space-4) var(--space-5); }
+  .kpi .value { font-size: 24px; }
+  .kpi .label { font-size: 10px; }
+  .chart-wrap { height: 240px; }
+  .chart-wrap.tall { height: 280px; }
+  .section { padding: var(--space-5) var(--space-5); }
+  .section h2 { font-size: 16px; }
+  /* Tables wrap for horizontal scroll on mobile */
+  .card > table, .section > table, main > table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+  th, td { padding: var(--space-2) var(--space-3); font-size: 12px; }
+  th { font-size: 10px; }
+}
+
+/* Mobile: scrollbar aesthetics */
+@media (max-width: 600px) {
+  ::-webkit-scrollbar { height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
 }
 
 /* ============ Cards ============ */

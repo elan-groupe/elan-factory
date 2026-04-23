@@ -1,0 +1,235 @@
+/* ELAN Factory — theme overrides via data-theme attribute
+   Base (noir) defined in style.css :root
+   Applies when html[data-theme="tiffany|atelier"] is set */
+
+/* ============================================================
+   THEME · PORCELAIN (Tiffany-inspired, light editorial luxury)
+   Warm white + Tiffany blue + Fraunces serif
+   ============================================================ */
+
+html[data-theme="porcelain"] {
+  --bg: #faf8f3;
+  --surface: #ffffff;
+  --surface-2: #f2efe7;
+  --surface-3: #ebe7dc;
+  --surface-hover: #f6f3ec;
+
+  --border: rgba(26, 22, 18, 0.08);
+  --border-strong: rgba(26, 22, 18, 0.14);
+  --border-soft: rgba(26, 22, 18, 0.05);
+
+  --text: #1a1612;
+  --text-muted: #4a4239;
+  --text-dim: #7c7264;
+  --text-subtle: #a39889;
+
+  --accent: #0abab5;        /* Tiffany blue */
+  --accent-hover: #087a75;
+  --accent-soft: rgba(10, 186, 181, 0.10);
+  --accent-border: rgba(10, 186, 181, 0.24);
+
+  --pos: #1a7a44;
+  --pos-soft: rgba(26, 122, 68, 0.08);
+  --neg: #b03232;
+  --neg-soft: rgba(176, 50, 50, 0.08);
+  --warn: #a66a0a;
+  --warn-soft: rgba(166, 106, 10, 0.08);
+  --info: #1a4a9a;
+  --info-soft: rgba(26, 74, 154, 0.08);
+
+  --chart-1: #0abab5;
+  --chart-2: #c8a35f;
+  --chart-3: #b03232;
+  --chart-4: #6a4d8a;
+  --chart-5: #1a4a9a;
+  --chart-6: #c76b3a;
+  --chart-7: #9a4d7a;
+  --chart-8: #7a7a7a;
+
+  --font-serif: 'Fraunces', 'Instrument Serif', Georgia, serif;
+}
+
+html[data-theme="porcelain"] body {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(10, 186, 181, 0.06), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(200, 163, 95, 0.05), transparent);
+}
+
+html[data-theme="porcelain"] header {
+  background: rgba(250, 248, 243, 0.88);
+}
+
+html[data-theme="porcelain"] .kpi::before {
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.06), transparent);
+}
+
+html[data-theme="porcelain"] h1 {
+  font-weight: 400;
+  letter-spacing: -1.5px;
+}
+
+html[data-theme="porcelain"] tr:hover td {
+  background: rgba(10, 186, 181, 0.03);
+}
+
+html[data-theme="porcelain"] .pill-date,
+html[data-theme="porcelain"] .pill {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+html[data-theme="porcelain"] .card,
+html[data-theme="porcelain"] .kpi,
+html[data-theme="porcelain"] .section {
+  box-shadow: 0 1px 3px rgba(26, 22, 18, 0.04);
+}
+
+/* ============================================================
+   THEME · ATELIER (editorial luxury, Aesop-inspired)
+   Bone cream + moss green + Fraunces display serif
+   Understated, premium, beauty-brand-adjacent
+   ============================================================ */
+
+html[data-theme="atelier"] {
+  --bg: #f3eee4;
+  --surface: #fbf7ec;
+  --surface-2: #ece5d4;
+  --surface-3: #e2dac5;
+  --surface-hover: #f0eadb;
+
+  --border: rgba(60, 45, 30, 0.10);
+  --border-strong: rgba(60, 45, 30, 0.18);
+  --border-soft: rgba(60, 45, 30, 0.05);
+
+  --text: #1f1a13;
+  --text-muted: #5a4e3c;
+  --text-dim: #8a7d68;
+  --text-subtle: #b0a48c;
+
+  --accent: #4a5d4a;        /* moss green */
+  --accent-hover: #384638;
+  --accent-soft: rgba(74, 93, 74, 0.10);
+  --accent-border: rgba(74, 93, 74, 0.24);
+
+  --pos: #4a5d4a;           /* moss doubles as positive */
+  --pos-soft: rgba(74, 93, 74, 0.10);
+  --neg: #a64e2a;           /* terracotta */
+  --neg-soft: rgba(166, 78, 42, 0.10);
+  --warn: #a6762a;
+  --warn-soft: rgba(166, 118, 42, 0.10);
+  --info: #3a5a8a;
+  --info-soft: rgba(58, 90, 138, 0.10);
+
+  --chart-1: #4a5d4a;       /* moss */
+  --chart-2: #a6762a;       /* ochre */
+  --chart-3: #a64e2a;       /* terracotta */
+  --chart-4: #6a5a7a;       /* dusty violet */
+  --chart-5: #3a5a8a;       /* ink blue */
+  --chart-6: #8a6a4a;       /* sepia */
+  --chart-7: #5a7a7a;       /* teal-grey */
+  --chart-8: #7a7068;       /* warm grey */
+
+  --font-serif: 'Fraunces', 'Instrument Serif', Georgia, serif;
+}
+
+html[data-theme="atelier"] body {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(74, 93, 74, 0.08), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(166, 118, 42, 0.06), transparent);
+}
+
+html[data-theme="atelier"] header {
+  background: rgba(243, 238, 228, 0.88);
+}
+
+html[data-theme="atelier"] .logo {
+  font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  letter-spacing: -1px;
+  font-weight: 500;
+}
+
+html[data-theme="atelier"] h1 {
+  font-variation-settings: 'opsz' 144, 'SOFT' 40;
+  font-weight: 400;
+  letter-spacing: -2px;
+}
+
+html[data-theme="atelier"] .section h2 {
+  font-variation-settings: 'opsz' 144, 'SOFT' 30;
+}
+
+html[data-theme="atelier"] .kpi::before {
+  background: linear-gradient(90deg, transparent, rgba(74, 93, 74, 0.12), transparent);
+}
+
+html[data-theme="atelier"] tr:hover td {
+  background: rgba(74, 93, 74, 0.04);
+}
+
+html[data-theme="atelier"] .pill {
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-size: 10px;
+  padding: 3px 10px;
+}
+
+html[data-theme="atelier"] .card,
+html[data-theme="atelier"] .kpi,
+html[data-theme="atelier"] .section {
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(60, 45, 30, 0.04);
+}
+
+html[data-theme="atelier"] .kpi .value {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 36px;
+  letter-spacing: -1.2px;
+}
+
+html[data-theme="atelier"] .callout {
+  border-radius: 2px;
+  border-left-width: 2px;
+}
+
+/* ============================================================
+   Theme switcher UI (in header)
+   ============================================================ */
+
+.theme-switcher {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+  margin-right: 12px;
+  align-items: center;
+}
+
+.theme-switcher button {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+  background: transparent;
+}
+
+.theme-switcher button:hover { transform: scale(1.15); }
+.theme-switcher button.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.theme-switcher .swatch-noir { background: radial-gradient(circle at 30% 30%, #1c1c20, #0a0a0b); }
+.theme-switcher .swatch-porcelain { background: radial-gradient(circle at 30% 30%, #fbfaf7, #0abab5 90%); }
+.theme-switcher .swatch-atelier { background: radial-gradient(circle at 30% 30%, #fbf7ec, #4a5d4a 90%); }
+
+html[data-theme="porcelain"] .theme-switcher button,
+html[data-theme="atelier"] .theme-switcher button {
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 600px) {
+  .theme-switcher { gap: 4px; margin-right: 4px; }
+  .theme-switcher button { width: 16px; height: 16px; }
+}

@@ -4,23 +4,28 @@
 (function() {
   if (typeof Chart === 'undefined') return;
 
+  // Read palette from CSS custom properties (live — responds to theme)
+  const cs = getComputedStyle(document.documentElement);
+  const v = (name, fallback) => (cs.getPropertyValue(name).trim() || fallback);
+
   const palette = {
-    text: '#fafafa',
-    muted: '#a1a1aa',
-    dim: '#71717a',
-    subtle: '#52525b',
-    surface: '#0f0f11',
-    surface2: '#161619',
-    border: 'rgba(255, 255, 255, 0.06)',
-    borderStrong: 'rgba(255, 255, 255, 0.10)',
-    accent: '#5eead4',
-    pos: '#34d399',
-    neg: '#f87171',
-    warn: '#fbbf24',
+    text: v('--text', '#fafafa'),
+    muted: v('--text-muted', '#a1a1aa'),
+    dim: v('--text-dim', '#71717a'),
+    subtle: v('--text-subtle', '#52525b'),
+    surface: v('--surface', '#0f0f11'),
+    surface2: v('--surface-2', '#161619'),
+    border: v('--border', 'rgba(255, 255, 255, 0.06)'),
+    borderStrong: v('--border-strong', 'rgba(255, 255, 255, 0.10)'),
+    accent: v('--accent', '#5eead4'),
+    pos: v('--pos', '#34d399'),
+    neg: v('--neg', '#f87171'),
+    warn: v('--warn', '#fbbf24'),
   };
 
-  // Curated chart palette — muted, sophisticated
-  window.CHART_COLORS = ['#5eead4', '#fbbf24', '#f87171', '#a78bfa', '#60a5fa', '#fb923c', '#c084fc', '#9ca3af'];
+  // Chart palette from --chart-N vars (fallback to noir defaults)
+  const fallback = ['#5eead4', '#fbbf24', '#f87171', '#a78bfa', '#60a5fa', '#fb923c', '#c084fc', '#9ca3af'];
+  window.CHART_COLORS = [1, 2, 3, 4, 5, 6, 7, 8].map((n, i) => v('--chart-' + n, fallback[i]));
 
   // Global defaults
   Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -66,7 +71,7 @@
   Chart.defaults.scale.border = Chart.defaults.scale.border || {};
   Chart.defaults.scale.border.display = false;
   Chart.defaults.scale.grid.drawBorder = false;
-  Chart.defaults.scale.grid.color = 'rgba(255, 255, 255, 0.04)';
+  Chart.defaults.scale.grid.color = v('--border-soft', 'rgba(255, 255, 255, 0.04)');
   Chart.defaults.scale.grid.drawTicks = false;
   Chart.defaults.scale.ticks.color = palette.dim;
   Chart.defaults.scale.ticks.font = { size: 11, weight: 500 };
@@ -85,7 +90,8 @@
   Chart.defaults.elements.point.hoverRadius = 6;
   Chart.defaults.elements.point.hoverBorderWidth = 2;
 
-  Chart.defaults.elements.arc.borderWidth = 0;
+  Chart.defaults.elements.arc.borderWidth = 2;
+  Chart.defaults.elements.arc.borderColor = palette.surface;
 
   // Helper: create vertical gradient for line fills
   window.chartGradient = function(ctx, colorHex, height) {

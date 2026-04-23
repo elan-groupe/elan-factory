@@ -2,12 +2,14 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
+<script>(function(){try{var t=localStorage.getItem('elan-theme')||'noir';if(['noir','porcelain','atelier'].indexOf(t)===-1)t='noir';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ELAN Factory · CAPEX</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style-themes.css">
 </head>
 <body>
 <header>
@@ -22,6 +24,11 @@
     <a href="path.html">Путь к $1B</a>
     <a href="brain.html">Brain</a>
   </nav>
+  <div class="theme-switcher">
+    <button class="swatch-noir" data-theme-name="noir" title="Noir"></button>
+    <button class="swatch-porcelain" data-theme-name="porcelain" title="Porcelain"></button>
+    <button class="swatch-atelier" data-theme-name="atelier" title="Atelier"></button>
+  </div>
   <span class="pill-date" id="headerDate"></span>
 </header>
 
