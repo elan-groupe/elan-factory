@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELAN Factory — Executive Snapshot</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
+<style>
+:root {
+  --bg-primary: #faf9f6;
+  --bg-card: #ffffff;
+  --bg-header: #0a0a0b;
+  --text-primary: #1a1612;
+  --text-secondary: #4e4539;
+  --text-muted: #857a6a;
+  --text-on-dark: #fafafa;
+  --border: rgba(26, 22, 18, 0.08);
+  --border-strong: rgba(26, 22, 18, 0.14);
+  --accent: #0abab5;
+  --accent-soft: rgba(10, 186, 181, 0.10);
+  --color-1: #0abab5;
+  --color-2: #c8a35f;
+  --color-3: #b03232;
+  --color-4: #6a4d8a;
+  --color-5: #1a4a9a;
+  --color-6: #c76b3a;
+  --color-7: #9a4d7a;
+  --color-8: #7a7a7a;
+  --positive: #1a7a44;
+  --negative: #b03232;
+  --warn: #a66a0a;
+  --gap: 16px;
+  --radius: 12px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+.dashboard-container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+.dashboard-header {
+  background: var(--bg-header);
+  color: var(--text-on-dark);
+  padding: 24px 28px;
+  border-radius: var(--radius);
+  margin-bottom: var(--gap);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.dashboard-header .title-block h1 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: -0.8px;
+  line-height: 1.1;
+}
+.dashboard-header .title-block h1 em { color: var(--accent); font-style: italic; }
+.dashboard-header .title-block .subtitle {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 4px;
+  letter-spacing: 0.2px;
+}
+.filters { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.filter-group { display: flex; align-items: center; gap: 8px; }
+.filter-group label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+.period-btn-group {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+}
+.period-btn-group button {
+  padding: 6px 14px;
+  border: 0;
+  background: transparent;
+  color: rgba(255,255,255,0.6);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.2px;
+}
+.period-btn-group button:hover { color: white; }
+.period-btn-group button.active { background: var(--accent); color: var(--bg-header); }
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--gap);
+  margin-bottom: var(--gap);
+}
+.kpi-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  box-shadow: 0 1px 3px rgba(26, 22, 18, 0.04);
+  position: relative;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20px; right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(10,186,181,0.5), transparent);
+}
+.kpi-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.kpi-value {
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.6px;
+}
+.kpi-change {
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 8px;
+  color: var(--text-muted);
+}
+.kpi-change.positive { color: var(--positive); }
+.kpi-change.negative { color: var(--negative); }
+.kpi-change.warn { color: var(--warn); }
+.chart-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--gap);
+  margin-bottom: var(--gap);
+}
+.chart-row.triple { grid-template-columns: repeat(3, 1fr); }
+.chart-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  box-shadow: 0 1px 3px rgba(26, 22, 18, 0.04);
+}
+.chart-container h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  letter-spacing: -0.1px;
+}
+.chart-wrap { position: relative; height: 300px; }
+.chart-wrap.small { height: 260px; }
+.table-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  box-shadow: 0 1px 3px rgba(26, 22, 18, 0.04);
+  margin-bottom: var(--gap);
+  overflow-x: auto;
+}
+.table-section h3 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  letter-spacing: -0.1px;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table thead th {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--border);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s;
+}
+.data-table thead th:hover { color: var(--text-primary); }
+.data-table thead th.num, .data-table tbody td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.data-table tbody td {
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.data-table tbody tr:hover { background: #faf8f3; }
+.data-table tbody tr:last-child td { border-bottom: none; }
+.pill {
+  display: inline-block;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 20px;
+  background: #f3f1eb;
+  color: var(--text-muted);
+}
+.pill.green { background: rgba(26, 122, 68, 0.1); color: var(--positive); }
+.pill.red { background: rgba(176, 50, 50, 0.1); color: var(--negative); }
+.pill.amber { background: rgba(166, 106, 10, 0.1); color: var(--warn); }
+.pill.accent { background: var(--accent-soft); color: var(--accent); }
+.insights {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap);
+  margin-bottom: var(--gap);
+}
+.insight {
+  padding: 14px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+.insight strong { color: var(--text-primary); }
+.insight.green { border-left-color: var(--positive); }
+.insight.red { border-left-color: var(--negative); }
+.insight.amber { border-left-color: var(--warn); }
+.dashboard-footer {
+  padding: 16px 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.dashboard-footer a { color: var(--accent); text-decoration: none; }
+@media (max-width: 900px) {
+  .chart-row { grid-template-columns: 1fr; }
+  .chart-row.triple { grid-template-columns: 1fr; }
+  .insights { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .dashboard-header { flex-direction: column; align-items: flex-start; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .kpi-value { font-size: 22px; }
+}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="dashboard-container">
+
+  <header class="dashboard-header">
+    <div class="title-block">
+      <h1><em>ELAN</em> Factory · Executive Snapshot</h1>
+      <div class="subtitle">Группа косметики · Турция + UA + PL + UAE · Цель: exit через 5–7 лет</div>
+    </div>
+    <div class="filters">
+      <div class="filter-group">
+        <label>Период</label>
+        <div class="period-btn-group">
+          <button data-period="feb">Февраль</button>
+          <button data-period="mar" class="active">Март</button>
+          <button data-period="ytd">YTD 2026</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-label">Group Revenue</div>
+      <div class="kpi-value" id="kpi-revenue">—</div>
+      <div class="kpi-change" id="kpi-revenue-change">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Operating P&amp;L</div>
+      <div class="kpi-value" id="kpi-profit">—</div>
+      <div class="kpi-change" id="kpi-margin">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Other Direction</div>
+      <div class="kpi-value" id="kpi-other">—</div>
+      <div class="kpi-change" id="kpi-other-pct">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">External %</div>
+      <div class="kpi-value" id="kpi-external">—</div>
+      <div class="kpi-change" id="kpi-external-sub">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">CAPEX cumulative</div>
+      <div class="kpi-value">$486k</div>
+      <div class="kpi-change">из $550k бюджета · долг КНР $142k</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Inventory</div>
+      <div class="kpi-value">€695k</div>
+      <div class="kpi-change">готовая · сырьё · упаковка</div>
+    </div>
+  </section>
+
+  <section class="chart-row">
+    <div class="chart-container">
+      <h3>Доходы месяц к месяцу · stacked (завод + другое направление)</h3>
+      <div class="chart-wrap"><canvas id="income-chart"></canvas></div>
+    </div>
+    <div class="chart-container">
+      <h3>Структура доходов · выбранный период</h3>
+      <div class="chart-wrap small"><canvas id="revenue-struct-chart"></canvas></div>
+    </div>
+  </section>
+
+  <section class="chart-row">
+    <div class="chart-container">
+      <h3>Расходы месяц к месяцу · COGS + OpEx + CapEx</h3>
+      <div class="chart-wrap"><canvas id="expense-chart"></canvas></div>
+    </div>
+    <div class="chart-container">
+      <h3>Структура OpEx + COGS · выбранный период</h3>
+      <div class="chart-wrap small"><canvas id="opex-struct-chart"></canvas></div>
+    </div>
+  </section>
+
+  <section class="chart-row">
+    <div class="chart-container">
+      <h3>Клиенты · март 2026 · related vs external</h3>
+      <div class="chart-wrap small"><canvas id="clients-chart"></canvas></div>
+    </div>
+    <div class="chart-container">
+      <h3>Маржа по брендам · markup = price ÷ cost − 1</h3>
+      <div class="chart-wrap small"><canvas id="brands-chart"></canvas></div>
+    </div>
+    <div class="chart-container">
+      <h3>Путь к exit · probability-weighted scenarios</h3>
+      <div class="chart-wrap small"><canvas id="scenarios-chart"></canvas></div>
+    </div>
+  </section>
+
+  <section class="table-section">
+    <h3>Помесячная сводка</h3>
+    <table class="data-table" id="months-table">
+      <thead>
+        <tr>
+          <th data-sort="label">Период</th>
+          <th data-sort="totalRevenue" class="num">Group Revenue</th>
+          <th data-sort="revenue" class="num">Завод</th>
+          <th data-sort="otherRevenue" class="num">Другое</th>
+          <th data-sort="opProfit" class="num">Op P&amp;L</th>
+          <th data-sort="opMargin" class="num">Margin</th>
+          <th>Статус</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="table-section">
+    <h3>Топ клиенты · март 2026</h3>
+    <table class="data-table" id="clients-table">
+      <thead>
+        <tr>
+          <th data-sort="name">Клиент</th>
+          <th>Страна</th>
+          <th>Тип</th>
+          <th data-sort="amount" class="num">€</th>
+          <th data-sort="pct" class="num">% месяца</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="insights">
+    <div class="insight green">
+      <strong>Март — positive group operating profit +€49k (+24% margin).</strong> С учётом «другого направления». Без него завод минус из-за разового таможенного бэклога €54k.
+    </div>
+    <div class="insight amber">
+      <strong>Таможня на импорт — 27% group revenue.</strong> Переход на режим IPR (İhracat Rejimi) срежет до 40% COGS в пиковые месяцы. Highest-ROI action.
+    </div>
+    <div class="insight red">
+      <strong>60% выручки завода — related-party.</strong> ФОП Кравченко · ELAN BEAUTY Польша · ELAN COSMETICS UAE. Для strategic buyer это intra-group transfers. Цель: &lt;30% к DD.
+    </div>
+    <div class="insight">
+      <strong>Собственный бренд запуск май 2026.</strong> Шампунь + гель для душа. Ключевой value-driver: без бренда — CMO multiple ×2–4; с брендом — DTC multiple ×3–6 revenue или strategic premium ×5–8.
+    </div>
+  </section>
+
+  <footer class="dashboard-footer">
+    <span>Data as of · <span id="data-date">2026-04-23</span> · период Feb–Mar 2026 (early data)</span>
+    <span>Полная версия: <a href="index.html">elan-groupe.github.io/elan-factory</a></span>
+  </footer>
+</div>
+
+<script>
+// ============ EMBEDDED DATA ============
+const DATA = {
+  months: [
+    {
+      month: "2026-02",
+      label: "Февраль 2026",
+      status: "moving",
+      revenue: 3673.55,
+      otherRevenue: 52931.77,
+      totalRevenue: 56605.32,
+      cogs: { raw_materials: 10767.22, packaging: 15741.04, shipping: 6968.07, customs: 18523.26, total: 51999.59 },
+      opex: { factory: 4601.07, personnel: 38566.65, services: 3815.47, other: 2302.51, total: 49285.70 },
+      capex: 87810.51,
+      opProfit: 56605.32 - 51999.59 - 49285.70,
+      opMargin: (56605.32 - 51999.59 - 49285.70) / 56605.32,
+    },
+    {
+      month: "2026-03",
+      label: "Март 2026",
+      status: "recovery",
+      revenue: 110592.56,
+      otherRevenue: 91019.60,
+      totalRevenue: 201612.16,
+      cogs: { raw_materials: 21109.98, packaging: 16492.77, shipping: 4595.11, customs: 53738.15, total: 95936.01 },
+      opex: { factory: 4846.20, personnel: 41833.51, services: 5754.50, other: 4644.37, total: 57078.58 },
+      capex: 19512.22,
+      opProfit: 201612.16 - 95936.01 - 57078.58,
+      opMargin: (201612.16 - 95936.01 - 57078.58) / 201612.16,
+    },
+  ],
+  clients: [
+    { name: "ФОП Кравченко (UA)", country: "Украина", type: "related", amount: 45251.74 },
+    { name: "USUPSO + C-LAB + BILOBROV", country: "UA/various", type: "external", amount: 24281.00 },
+    { name: "ELAN BEAUTY Польша", country: "Польша", type: "related", amount: 18382.27 },
+    { name: "LUNESI LTD (UK)", country: "UK", type: "external", amount: 14415.63 },
+    { name: "Розница + Trendyol", country: "Турция", type: "external", amount: 5533.00 },
+    { name: "ELAN COSMETICS Дубаи", country: "UAE", type: "related", amount: 2729.50 },
+  ],
+  brands: [
+    { brand: "USUPSO", cost: 8769.60, price: 23839.82, markup: 1.72 },
+    { brand: "C-LAB", cost: 8448.35, price: 12851.52, markup: 0.52 },
+    { brand: "BILOBROV", cost: 6282.80, price: 9113.28, markup: 0.45 },
+    { brand: "LUNESI COSMOPROF", cost: 2625, price: 3512.60, markup: 0.34 },
+    { brand: "LUNESI UK", cost: 8503.60, price: 9848.88, markup: 0.16 },
+    { brand: "LUNESI UK RAYE", cost: 1000, price: 1054.15, markup: 0.05 },
+  ],
+  scenarios: [
+    { name: "Baseline · CMO", exitValue: 8e6, probability: 0.35 },
+    { name: "Бренд · moderate", exitValue: 72e6, probability: 0.30 },
+    { name: "Бренд · strong", exitValue: 300e6, probability: 0.20 },
+    { name: "Strategic exit $1B", exitValue: 1e9, probability: 0.05 },
+    { name: "Unicorn tier", exitValue: 1.4e9, probability: 0.02 },
+  ],
+};
+
+const COLORS = ['#0abab5', '#c8a35f', '#b03232', '#6a4d8a', '#1a4a9a', '#c76b3a', '#9a4d7a', '#7a7a7a'];
+
+function fmt(v) {
+  const abs = Math.abs(v);
+  if (abs >= 1e9) return (v / 1e9).toFixed(2) + 'B€';
+  if (abs >= 1e6) return (v / 1e6).toFixed(1) + 'M€';
+  if (abs >= 1e3) return (v / 1e3).toFixed(1) + 'k€';
+  return Math.round(v).toLocaleString('ru-RU') + '€';
+}
+function fmtUSD(v) {
+  if (Math.abs(v) >= 1e9) return '$' + (v / 1e9).toFixed(1) + 'B';
+  if (Math.abs(v) >= 1e6) return '$' + (v / 1e6).toFixed(0) + 'M';
+  return '$' + (v / 1e3).toFixed(0) + 'k';
+}
+function fmtPct(v) { return (v * 100).toFixed(1) + '%'; }
+
+// ============ Dashboard class ============
+class Dashboard {
+  constructor(data) {
+    this.data = data;
+    this.currentPeriod = 'mar';
+    this.charts = {};
+    this.sortState = { table: 'months', col: 'label', dir: 'asc' };
+    this.init();
+  }
+
+  init() {
+    this.wirePeriodButtons();
+    this.renderKPIs();
+    this.renderTrendCharts();
+    this.renderStructureCharts();
+    this.renderClientsChart();
+    this.renderBrandsChart();
+    this.renderScenariosChart();
+    this.renderMonthsTable();
+    this.renderClientsTable();
+    this.wireTableSort();
+  }
+
+  getPeriodSummary() {
+    if (this.currentPeriod === 'ytd') {
+      const m = this.data.months;
+      return {
+        label: 'YTD 2026',
+        revenue: m.reduce((s, x) => s + x.revenue, 0),
+        otherRevenue: m.reduce((s, x) => s + x.otherRevenue, 0),
+        totalRevenue: m.reduce((s, x) => s + x.totalRevenue, 0),
+        opProfit: m.reduce((s, x) => s + x.opProfit, 0),
+        opMargin: m.reduce((s, x) => s + x.opProfit, 0) / m.reduce((s, x) => s + x.totalRevenue, 1),
+        cogs: {
+          customs: m.reduce((s, x) => s + x.cogs.customs, 0),
+          raw_materials: m.reduce((s, x) => s + x.cogs.raw_materials, 0),
+          packaging: m.reduce((s, x) => s + x.cogs.packaging, 0),
+          shipping: m.reduce((s, x) => s + x.cogs.shipping, 0),
+        },
+        opex: {
+          personnel: m.reduce((s, x) => s + x.opex.personnel, 0),
+          factory: m.reduce((s, x) => s + x.opex.factory, 0),
+          services: m.reduce((s, x) => s + x.opex.services, 0),
+          other: m.reduce((s, x) => s + x.opex.other, 0),
+        },
+      };
+    }
+    const idx = this.currentPeriod === 'feb' ? 0 : 1;
+    return this.data.months[idx];
+  }
+
+  renderKPIs() {
+    const p = this.getPeriodSummary();
+    const labelMar = p.label || 'Март 2026';
+
+    document.getElementById('kpi-revenue').textContent = fmt(p.totalRevenue);
+    document.getElementById('kpi-revenue-change').innerHTML =
+      `завод ${fmt(p.revenue)} + другое ${fmt(p.otherRevenue)}`;
+
+    document.getElementById('kpi-profit').textContent = fmt(p.opProfit);
+    const marginEl = document.getElementById('kpi-margin');
+    marginEl.textContent = `margin ${fmtPct(p.opMargin)}`;
+    marginEl.className = 'kpi-change ' + (p.opProfit >= 0 ? 'positive' : 'negative');
+
+    document.getElementById('kpi-other').textContent = fmt(p.otherRevenue);
+    document.getElementById('kpi-other-pct').innerHTML =
+      `${fmtPct(p.otherRevenue / Math.max(p.totalRevenue, 1))} от group revenue`;
+
+    // External % (from March clients)
+    const marClients = this.data.clients;
+    const external = marClients.filter(c => c.type === 'external').reduce((s, c) => s + c.amount, 0);
+    const related = marClients.filter(c => c.type === 'related').reduce((s, c) => s + c.amount, 0);
+    const pctExt = external / (external + related);
+    document.getElementById('kpi-external').textContent = fmtPct(pctExt);
+    const extEl = document.getElementById('kpi-external-sub');
+    extEl.textContent = 'март · цель >70%';
+    extEl.className = 'kpi-change ' + (pctExt >= 0.7 ? 'positive' : pctExt >= 0.4 ? 'warn' : 'negative');
+  }
+
+  renderTrendCharts() {
+    const months = this.data.months;
+
+    this.charts.income = new Chart(document.getElementById('income-chart'), {
+      type: 'bar',
+      data: {
+        labels: months.map(m => m.label),
+        datasets: [
+          { label: 'Завод', data: months.map(m => m.revenue), backgroundColor: COLORS[0] + 'cc' },
+          { label: 'Другое направление', data: months.map(m => m.otherRevenue), backgroundColor: COLORS[3] + 'cc' },
+        ],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', labels: { usePointStyle: true, padding: 14, font: { size: 11 } } },
+          tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${fmt(ctx.raw)}` } },
+        },
+        scales: {
+          x: { stacked: true, grid: { display: false } },
+          y: { stacked: true, ticks: { callback: v => fmt(v) } },
+        },
+      },
+    });
+
+    this.charts.expense = new Chart(document.getElementById('expense-chart'), {
+      type: 'bar',
+      data: {
+        labels: months.map(m => m.label),
+        datasets: [
+          { label: 'COGS', data: months.map(m => m.cogs.total), backgroundColor: COLORS[2] + 'cc', stack: 'cost' },
+          { label: 'OpEx', data: months.map(m => m.opex.total), backgroundColor: COLORS[5] + 'cc', stack: 'cost' },
+          { label: 'CapEx', data: months.map(m => m.capex), backgroundColor: COLORS[4] + 'cc', stack: 'cost' },
+        ],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', labels: { usePointStyle: true, padding: 14, font: { size: 11 } } },
+          tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${fmt(ctx.raw)}` } },
+        },
+        scales: {
+          x: { stacked: true, grid: { display: false } },
+          y: { stacked: true, ticks: { callback: v => fmt(v) } },
+        },
+      },
+    });
+  }
+
+  renderStructureCharts() {
+    const p = this.getPeriodSummary();
+
+    if (this.charts.revStruct) this.charts.revStruct.destroy();
+    this.charts.revStruct = new Chart(document.getElementById('revenue-struct-chart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Завод', 'Другое направление'],
+        datasets: [{ data: [p.revenue, p.otherRevenue], backgroundColor: [COLORS[0], COLORS[3]], borderWidth: 2, borderColor: '#fff' }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, cutout: '58%',
+        plugins: {
+          legend: { position: 'bottom', labels: { usePointStyle: true, padding: 12, font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: ctx => {
+                const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                return `${ctx.label}: ${fmt(ctx.raw)} · ${((ctx.raw / total) * 100).toFixed(1)}%`;
+              }
+            }
+          }
+        }
+      }
+    });
+
+    const breakdown = [
+      { name: 'Таможня', value: p.cogs.customs },
+      { name: 'Персонал', value: p.opex.personnel },
+      { name: 'Сырьё', value: p.cogs.raw_materials },
+      { name: 'Упаковка', value: p.cogs.packaging },
+      { name: 'Услуги', value: p.opex.services },
+      { name: 'Фабрика', value: p.opex.factory },
+      { name: 'Доставка', value: p.cogs.shipping },
+      { name: 'Прочие', value: p.opex.other },
+    ];
+    if (this.charts.opexStruct) this.charts.opexStruct.destroy();
+    this.charts.opexStruct = new Chart(document.getElementById('opex-struct-chart'), {
+      type: 'doughnut',
+      data: {
+        labels: breakdown.map(b => b.name),
+        datasets: [{ data: breakdown.map(b => b.value), backgroundColor: COLORS, borderWidth: 2, borderColor: '#fff' }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, cutout: '58%',
+        plugins: {
+          legend: { position: 'right', labels: { usePointStyle: true, padding: 8, font: { size: 10.5 } } },
+          tooltip: {
+            callbacks: {
+              label: ctx => {
+                const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                return `${ctx.label}: ${fmt(ctx.raw)} · ${((ctx.raw / total) * 100).toFixed(1)}%`;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  renderClientsChart() {
+    const external = this.data.clients.filter(c => c.type === 'external').reduce((s, c) => s + c.amount, 0);
+    const related = this.data.clients.filter(c => c.type === 'related').reduce((s, c) => s + c.amount, 0);
+    new Chart(document.getElementById('clients-chart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['External', 'Related party'],
+        datasets: [{ data: [external, related], backgroundColor: [COLORS[0], COLORS[2]], borderWidth: 2, borderColor: '#fff' }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, cutout: '62%',
+        plugins: {
+          legend: { position: 'bottom', labels: { usePointStyle: true, padding: 12, font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: ctx => {
+                const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                return `${ctx.label}: ${fmt(ctx.raw)} · ${((ctx.raw / total) * 100).toFixed(1)}%`;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  renderBrandsChart() {
+    new Chart(document.getElementById('brands-chart'), {
+      type: 'bar',
+      data: {
+        labels: this.data.brands.map(b => b.brand),
+        datasets: [{
+          label: 'Markup %',
+          data: this.data.brands.map(b => b.markup * 100),
+          backgroundColor: this.data.brands.map(b => b.markup > 1 ? COLORS[0] : b.markup > 0.4 ? COLORS[1] : COLORS[2]),
+          borderRadius: 4,
+        }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => `${ctx.raw.toFixed(0)}% markup` } },
+        },
+        scales: {
+          x: { beginAtZero: true, ticks: { callback: v => v + '%' } },
+          y: { grid: { display: false } },
+        },
+      }
+    });
+  }
+
+  renderScenariosChart() {
+    new Chart(document.getElementById('scenarios-chart'), {
+      type: 'bar',
+      data: {
+        labels: this.data.scenarios.map(s => s.name),
+        datasets: [{
+          label: 'Exit value',
+          data: this.data.scenarios.map(s => s.exitValue / 1e6),
+          backgroundColor: this.data.scenarios.map(s =>
+            s.exitValue >= 500e6 ? COLORS[0] : s.exitValue >= 100e6 ? COLORS[4] : s.exitValue >= 30e6 ? COLORS[1] : COLORS[7]
+          ),
+          borderRadius: 4,
+        }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => {
+                const s = this.data.scenarios[ctx.dataIndex];
+                return `${fmtUSD(s.exitValue)} · prob ${(s.probability * 100).toFixed(0)}%`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: { beginAtZero: true, ticks: { callback: v => v >= 1000 ? '$' + (v/1000).toFixed(1) + 'B' : '$' + v + 'M' } },
+          y: { grid: { display: false }, ticks: { font: { size: 10.5 } } },
+        },
+      }
+    });
+  }
+
+  renderMonthsTable() {
+    const tbody = document.querySelector('#months-table tbody');
+    let rows = [...this.data.months];
+    const s = this.sortState;
+    if (s.table === 'months' && s.col) {
+      rows.sort((a, b) => {
+        const av = a[s.col], bv = b[s.col];
+        const cmp = av < bv ? -1 : av > bv ? 1 : 0;
+        return s.dir === 'asc' ? cmp : -cmp;
+      });
+    }
+    tbody.innerHTML = rows.map(m => {
+      const statusPill = m.status === 'moving'
+        ? '<span class="pill red">переезд</span>'
+        : '<span class="pill amber">восстановление</span>';
+      return `<tr>
+        <td>${m.label}</td>
+        <td class="num">${fmt(m.totalRevenue)}</td>
+        <td class="num">${fmt(m.revenue)}</td>
+        <td class="num">${fmt(m.otherRevenue)}</td>
+        <td class="num" style="color:${m.opProfit >= 0 ? 'var(--positive)' : 'var(--negative)'}">${fmt(m.opProfit)}</td>
+        <td class="num" style="color:${m.opMargin >= 0 ? 'var(--positive)' : 'var(--negative)'}">${fmtPct(m.opMargin)}</td>
+        <td>${statusPill}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  renderClientsTable() {
+    const tbody = document.querySelector('#clients-table tbody');
+    let clients = [...this.data.clients];
+    const marRevenue = this.data.months[1].revenue;
+    clients = clients.map(c => ({ ...c, pct: c.amount / marRevenue }));
+    const s = this.sortState;
+    if (s.table === 'clients' && s.col) {
+      clients.sort((a, b) => {
+        const av = a[s.col], bv = b[s.col];
+        const cmp = av < bv ? -1 : av > bv ? 1 : 0;
+        return s.dir === 'asc' ? cmp : -cmp;
+      });
+    } else {
+      clients.sort((a, b) => b.amount - a.amount);
+    }
+    tbody.innerHTML = clients.map(c => `
+      <tr>
+        <td><strong>${c.name}</strong></td>
+        <td><span class="pill">${c.country}</span></td>
+        <td><span class="pill ${c.type === 'related' ? 'red' : 'green'}">${c.type}</span></td>
+        <td class="num">${fmt(c.amount)}</td>
+        <td class="num">${fmtPct(c.pct)}</td>
+      </tr>`).join('');
+  }
+
+  wirePeriodButtons() {
+    document.querySelectorAll('.period-btn-group button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.period-btn-group button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        this.currentPeriod = btn.dataset.period;
+        this.renderKPIs();
+        this.renderStructureCharts();
+      });
+    });
+  }
+
+  wireTableSort() {
+    document.querySelectorAll('#months-table thead th[data-sort]').forEach(th => {
+      th.addEventListener('click', () => {
+        const col = th.dataset.sort;
+        if (this.sortState.table === 'months' && this.sortState.col === col) {
+          this.sortState.dir = this.sortState.dir === 'asc' ? 'desc' : 'asc';
+        } else {
+          this.sortState.table = 'months';
+          this.sortState.col = col;
+          this.sortState.dir = 'desc';
+        }
+        this.renderMonthsTable();
+      });
+    });
+    document.querySelectorAll('#clients-table thead th[data-sort]').forEach(th => {
+      th.addEventListener('click', () => {
+        const col = th.dataset.sort;
+        if (this.sortState.table === 'clients' && this.sortState.col === col) {
+          this.sortState.dir = this.sortState.dir === 'asc' ? 'desc' : 'asc';
+        } else {
+          this.sortState.table = 'clients';
+          this.sortState.col = col;
+          this.sortState.dir = 'desc';
+        }
+        this.renderClientsTable();
+      });
+    });
+  }
+}
+
+const dashboard = new Dashboard(DATA);
+</script>
+</body>
+</html>
