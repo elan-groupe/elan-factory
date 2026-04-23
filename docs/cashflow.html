@@ -24,7 +24,6 @@
     <a href="path.html">Путь к $1B</a>
     <a href="brain.html">Brain</a>
   </nav>
-  <span class="pill-date" id="headerDate"></span>
 </header>
 
 <main>
@@ -66,7 +65,6 @@
 <script>
 const D = window.ELAN_DATA;
 const fmt = v => (Math.abs(v) >= 1000 ? (v / 1000).toFixed(0) + 'k' : v.toFixed(0));
-document.getElementById('headerDate').textContent = D.meta.lastUpdate;
 document.getElementById('updated').textContent = D.meta.lastUpdate;
 
 new Chart(document.getElementById('agChart'), {

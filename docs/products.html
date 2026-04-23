@@ -24,7 +24,6 @@
     <a href="path.html">Путь к $1B</a>
     <a href="brain.html">Brain</a>
   </nav>
-  <span class="pill-date" id="headerDate"></span>
 </header>
 
 <main>
@@ -81,7 +80,6 @@
 const D = window.ELAN_DATA;
 const fmt = window.fmtNum;
 const fmtPct = v => (v * 100).toFixed(0) + '%';
-document.getElementById('headerDate').textContent = D.meta.lastUpdate;
 document.getElementById('updated').textContent = D.meta.lastUpdate;
 
 // Brands table

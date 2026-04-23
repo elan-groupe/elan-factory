@@ -212,11 +212,11 @@ window.ELAN_DATA = {
     },
     unicorn: {
       name: "Unicorn (Drunk Elephant tier)",
-      rev2030: 250_000_000,
+      rev2030: 300_000_000,
       brandShare: 0.90,
-      ebitda2030: 70_000_000,
+      ebitda2030: 100_000_000,
       multiple: 14,
-      exitValue: 1_400_000_000,
+      exitValue: 1_400_000_000, // 100M × 14 = 1.4B ✓
       probability: 0.02,
     },
   },

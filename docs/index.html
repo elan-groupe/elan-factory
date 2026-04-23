@@ -24,7 +24,6 @@
     <a href="path.html">Путь к $1B</a>
     <a href="brain.html">Brain</a>
   </nav>
-  <span class="pill-date" id="headerDate"></span>
 </header>
 
 <main>
@@ -89,11 +88,9 @@
 const D = window.ELAN_DATA;
 const fmt = window.fmtNum;
 const fmtPct = window.fmtPct;
-
-document.getElementById('headerDate').textContent = D.meta.lastUpdate;
 document.getElementById('updated').textContent = D.meta.lastUpdate;
 document.getElementById('subtitle').textContent =
-  `Финансовый обзор группы ELAN — завод в Турции, собственный бренд (запуск май 2026). Цель: продать за $1B за ${D.meta.targetYears.join('–')} лет. Доля 7%.`;
+  `Финансовый обзор группы ELAN — завод в Турции, собственный бренд (запуск май 2026). Цель: продать за $1B за ${D.meta.targetYears.join('–')} лет.`;
 
 const latest = D.months[D.months.length - 1];
 const ytdRevenue = D.months.reduce((s, m) => s + m.revenue, 0);
@@ -124,12 +121,12 @@ const kpis = [
   {
     label: 'Оценка группы',
     value: '$' + (D.valuation.totalLow / 1e6).toFixed(0) + '–' + (D.valuation.totalHigh / 1e6).toFixed(0) + 'M',
-    sub: `Ваши 7%: $${(D.valuation.userShare7pct.low / 1000).toFixed(0)}–${(D.valuation.userShare7pct.high / 1000).toFixed(0)}k`,
+    sub: 'asset + CMO + brand optionality',
   },
   {
     label: 'Цель 2030–2032',
     value: '$1B',
-    sub: 'Ваши 7% = $70M',
+    sub: 'strategic exit через unicorn brand',
     cls: 'warn',
   },
 ];
@@ -210,7 +207,7 @@ document.getElementById('scenarioCards').innerHTML = Object.values(D.scenarios).
   <div class="kpi">
     <div class="label">${s.name}</div>
     <div class="value">$${(s.exitValue / 1e6).toFixed(0)}M</div>
-    <div class="sub">вероятность ${fmtPct(s.probability, 0)} · ваш 7% = $${(s.exitValue * 0.07 / 1e6).toFixed(1)}M</div>
+    <div class="sub">вероятность ${fmtPct(s.probability, 0)}</div>
   </div>`).join('');
 
 // ============ Insights ============
