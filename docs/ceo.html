@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ELAN Factory · CEO Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style-themes.css">
+<script src="theme.js"></script>
+<style>
+  .cadence { display: grid; grid-template-columns: 90px 1fr; gap: var(--space-4); margin-bottom: var(--space-4); align-items: start; }
+  .cadence-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px; color: var(--accent); text-transform: uppercase; padding-top: 6px; }
+  .cadence-list { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-5) var(--space-6); }
+  .cadence-list ul { list-style: none; padding: 0; margin: 0; }
+  .cadence-list li { padding: 10px 0; border-bottom: 1px dotted var(--border); display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: var(--space-3); font-size: 13px; align-items: baseline; }
+  .cadence-list li:last-child { border-bottom: 0; }
+  .cadence-list .kpi-name { color: var(--text); font-weight: 500; }
+  .cadence-list .kpi-target { font-family: var(--font-mono); font-size: 12px; color: var(--accent); text-align: right; }
+  .cadence-list .kpi-why { color: var(--text-dim); font-size: 12px; }
+  .advice { padding: var(--space-5) var(--space-6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: var(--space-3); }
+  .advice .num { font-family: var(--font-serif); font-style: italic; color: var(--accent); font-size: 24px; line-height: 1; float: left; margin-right: var(--space-3); margin-top: 4px; }
+  .advice h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .advice p { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; margin: 0; }
+  .qgroup h3 { font-size: 16px; font-family: var(--font-serif); font-weight: 400; color: var(--text); margin: var(--space-6) 0 var(--space-3); letter-spacing: -0.3px; border-bottom: 1px solid var(--border); padding-bottom: var(--space-2); }
+  .qgroup ol { padding-left: 24px; margin-bottom: var(--space-5); }
+  .qgroup li { font-size: 13.5px; color: var(--text); line-height: 1.7; margin-bottom: var(--space-2); }
+  .qgroup li em { color: var(--text-dim); font-style: normal; font-size: 12px; display: block; margin-top: 2px; }
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="index.html"><em>elan</em> factory</a>
+  <nav>
+    <a href="index.html">Cockpit</a>
+    <a href="pnl.html">P&amp;L</a>
+    <a href="clients.html">Клиенты</a>
+    <a href="products.html">Продукты</a>
+    <a href="payroll.html">Персонал</a>
+    <a href="capex.html">CAPEX</a>
+    <a href="cashflow.html">Cash</a>
+    <a href="group.html">Группа</a>
+    <a href="risk.html">Риски</a>
+    <a href="ceo.html" class="active">CEO Brief</a>
+    <a href="path.html">Путь к $1B</a>
+    <a href="brain.html">Brain</a>
+  </nav>
+</header>
+
+<main>
+  <h1>CEO <em>Brief</em></h1>
+  <p class="subtitle">Взгляд Renato Semerari (CEO Intercos) на ваш завод. Три части: <strong>(1)</strong> что смотреть ежедневно / еженедельно / ежемесячно / ежеквартально, <strong>(2)</strong> 7 советов, как управлять заводом, метящим в Intercos-tier, <strong>(3)</strong> 48 вопросов для разговора с вашим текущим CEO завода, чтобы получить полную картину.</p>
+
+  <h2>Часть I · Operating Rhythm</h2>
+  <p class="muted" style="margin-bottom:var(--space-8)">Какие показатели CEO Intercos смотрит на какой частоте. Это industry-стандарт для CMO уровня Intercos/Cosmax/Fareva.</p>
+
+  <!-- DAILY -->
+  <div class="cadence">
+    <div class="cadence-label">Ежедневно<br><span class="dim" style="font-size:10px; letter-spacing:1px">утром 8:30</span></div>
+    <div class="cadence-list">
+      <ul>
+        <li><span class="kpi-name">Выпуск продукции вчера</span><span class="kpi-target">план vs факт &gt; 95%</span><span class="kpi-why">баланс → отгрузки завтра</span></li>
+        <li><span class="kpi-name">Scrap rate / брак на линии</span><span class="kpi-target">&lt; 2%</span><span class="kpi-why">сигнал о проблеме в сырье/обучении</span></li>
+        <li><span class="kpi-name">Safety incidents</span><span class="kpi-target">0 always</span><span class="kpi-why">правовой риск + людской</span></li>
+        <li><span class="kpi-name">On-time delivery вчерашних отгрузок</span><span class="kpi-target">&gt; 95%</span><span class="kpi-why">customer satisfaction #1</span></li>
+        <li><span class="kpi-name">Cash balance · все счета</span><span class="kpi-target">&gt; 30 days OpEx</span><span class="kpi-why">runway check</span></li>
+        <li><span class="kpi-name">Open quality complaints</span><span class="kpi-target">&lt; 3 open</span><span class="kpi-why">каждая — потенциальный client loss</span></li>
+        <li><span class="kpi-name">Absenteeism % · сегодня</span><span class="kpi-target">&lt; 5%</span><span class="kpi-why">проблема с моралью / здоровьем</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- WEEKLY -->
+  <div class="cadence">
+    <div class="cadence-label">Еженедельно<br><span class="dim" style="font-size:10px; letter-spacing:1px">понедельник</span></div>
+    <div class="cadence-list">
+      <ul>
+        <li><span class="kpi-name">Revenue vs forecast · неделя</span><span class="kpi-target">±5% от плана</span><span class="kpi-why">динамика trend vs budget</span></li>
+        <li><span class="kpi-name">Новые заказы получены</span><span class="kpi-target">pipeline filled 6 weeks ahead</span><span class="kpi-why">индикатор future revenue</span></li>
+        <li><span class="kpi-name">Inventory days on hand · сырьё</span><span class="kpi-target">30–45 дней</span><span class="kpi-why">&lt;15 — риск, &gt;60 — замороженный капитал</span></li>
+        <li><span class="kpi-name">AR aging · overdue &gt;30</span><span class="kpi-target">&lt; 10% receivables</span><span class="kpi-why">клиенты проблемные → cash риск</span></li>
+        <li><span class="kpi-name">OEE по каждой линии</span><span class="kpi-target">&gt; 70%</span><span class="kpi-why">efficiency × availability × quality</span></li>
+        <li><span class="kpi-name">R&amp;D pipeline · новые формулы</span><span class="kpi-target">&gt; 2 в тестинге</span><span class="kpi-why">innovation pipeline</span></li>
+        <li><span class="kpi-name">Hires / terminations · за неделю</span><span class="kpi-target">net 0 или positive</span><span class="kpi-why">team stability</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- MONTHLY -->
+  <div class="cadence">
+    <div class="cadence-label">Ежемесячно<br><span class="dim" style="font-size:10px; letter-spacing:1px">1-е число</span></div>
+    <div class="cadence-list">
+      <ul>
+        <li><span class="kpi-name">Полный P&amp;L vs budget</span><span class="kpi-target">±5% по статьям</span><span class="kpi-why">board presentation base</span></li>
+        <li><span class="kpi-name">Gross margin по клиентам · top-10</span><span class="kpi-target">&gt; 40%</span><span class="kpi-why">pricing / renegotiation targets</span></li>
+        <li><span class="kpi-name">Gross margin по SKU · top-20</span><span class="kpi-target">&gt; 50%</span><span class="kpi-why">production mix optimization</span></li>
+        <li><span class="kpi-name">Working capital: DSO · DPO · DIO</span><span class="kpi-target">cash cycle &lt; 60 дней</span><span class="kpi-why">operational efficiency</span></li>
+        <li><span class="kpi-name">CAPEX utilization · plan vs actual</span><span class="kpi-target">на уровне плана</span><span class="kpi-why">investment discipline</span></li>
+        <li><span class="kpi-name">Sales pipeline · conversion rate</span><span class="kpi-target">&gt; 20% hot → won</span><span class="kpi-why">sales team performance</span></li>
+        <li><span class="kpi-name">Customer concentration (top-5 %)</span><span class="kpi-target">&lt; 50%</span><span class="kpi-why">concentration risk management</span></li>
+        <li><span class="kpi-name">Related-party % выручки</span><span class="kpi-target">&lt; 30% для DD</span><span class="kpi-why">investor readiness</span></li>
+        <li><span class="kpi-name">Employee turnover · LTM rolling</span><span class="kpi-target">&lt; 15% annual</span><span class="kpi-why">retention quality</span></li>
+        <li><span class="kpi-name">Compliance / audit findings</span><span class="kpi-target">0 major open</span><span class="kpi-why">GMP / ISO readiness</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- QUARTERLY -->
+  <div class="cadence">
+    <div class="cadence-label">Ежеквартально<br><span class="dim" style="font-size:10px; letter-spacing:1px">конец квартала</span></div>
+    <div class="cadence-list">
+      <ul>
+        <li><span class="kpi-name">Strategic review · growth/margin/cash</span><span class="kpi-target">board deck</span><span class="kpi-why">re-calibrate план</span></li>
+        <li><span class="kpi-name">Risk register · обновление</span><span class="kpi-target">all risks reviewed</span><span class="kpi-why">mitigation progress tracking</span></li>
+        <li><span class="kpi-name">Competitive analysis</span><span class="kpi-target">3+ новых инсайта</span><span class="kpi-why">market positioning</span></li>
+        <li><span class="kpi-name">Talent review · succession</span><span class="kpi-target">2+ кандидата на каждую C-role</span><span class="kpi-why">key-person risk</span></li>
+        <li><span class="kpi-name">Product portfolio · kill / launch</span><span class="kpi-target">оптимизация SKU mix</span><span class="kpi-why">complexity reduction</span></li>
+        <li><span class="kpi-name">Customer satisfaction · NPS survey</span><span class="kpi-target">&gt; 50</span><span class="kpi-why">retention predictor</span></li>
+        <li><span class="kpi-name">Cash flow forecast · 12 мес rolling</span><span class="kpi-target">&gt; 6 мес runway</span><span class="kpi-why">financial stability</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Часть II · 7 советов от CEO Intercos</h2>
+
+  <div class="advice">
+    <div class="num">01</div>
+    <h3>Weekly Operating Rhythm · священный час понедельника</h3>
+    <p>Каждый понедельник 9:00 · 45 минут · ключевые люди (CEO, COO, CFO, Sales head, QC head). Один формат слайдов. Цифры только — никаких «в целом норм». Раз в 4 недели — deep dive в одну проблему.</p>
+  </div>
+
+  <div class="advice">
+    <div class="num">02</div>
+    <h3>Ships or it didn't happen</h3>
+    <p>Шипить каждую неделю — новая партия для клиента, новый SKU, новый регистр. Если неделя без отгрузки — это red flag. Расскажите команде: «one ship per week minimum».</p>
+  </div>
+
+  <div class="advice">
+    <div class="num">03</div>
+    <h3>Первый клиент Intercos-tier на 36 месяцев раньше exit</h3>
+    <p>К Q4 2027 привлечь один клиент уровня LVMH / Shiseido / Puig / Amorepacific — не в формате «мы хотим», а с <strong>подписанным MOQ 100k units/год</strong>. Это сигнал для Intercos «они умеют работать с нашим уровнем».</p>
+  </div>
+
+  <div class="advice">
+    <div class="num">04</div>
+    <h3>Quality как религия</h3>
+    <p>Вложите $30–50k в QC lab, PH meter, viscometer, microbial testing. Каждый batch — с certificate of analysis. Это стандарт индустрии, без которого нельзя продавать EU брендам. Инвестиция окупается за 1 контракт.</p>
+  </div>
+
+  <div class="advice">
+    <div class="num">05</div>
+    <h3>Data consolidation · ERP до 2027</h3>
+    <p>Excel + 1С + турецкая программа = DD-мука. Переходите на cloud-ERP (Odoo, NetSuite, SAP Business One) до Q2 2027. Это единственный способ дать инвестору clean data в 24 часа.</p>
+  </div>
+
+  <div class="advice">
+    <div class="num">06</div>
+    <h3>Industry presence · будьте видимы</h3>
+    <p>Cosmoprof Bologna (март), in-cosmetics Barcelona (апрель), Cosmeeting Paris (сентябрь). Стенд 18 м² = €15–25k. Вы встречаете там будущих Intercos-клиентов до того, как Intercos их знает.</p>
+  </div>
+
+  <div class="advice">
+    <div class="num">07</div>
+    <h3>Continuous improvement · Kaizen на смене</h3>
+    <p>Каждая смена заканчивается 10-минутной retrospective: что пошло не так, как улучшить. Через 12 месяцев ваши production engineers станут в 2× эффективнее без доп вложений.</p>
+  </div>
+
+  <h2>Часть III · 48 вопросов вашему CEO</h2>
+  <p class="muted" style="margin-bottom:var(--space-6)">Сделайте 2-часовую сессию. Записывайте ответы — это основа для <a href="group.html" style="color:var(--accent)">group.html</a>, <a href="risk.html" style="color:var(--accent)">risk.html</a> и следующих квартальных обновлений дашборда.</p>
+
+  <div class="qgroup">
+    <h3>01 · Производство (6)</h3>
+    <ol start="1">
+      <li>Какая текущая загрузка фабрики в часах в день / днях в неделю?<em>Max = 16ч × 6 дней = 96 часов. Сейчас что?</em></li>
+      <li>Какой scrap rate / процент брака на каждой линии?<em>Норма CMO 1–2%. Если больше — где теряется?</em></li>
+      <li>Сколько SKU производится в месяц и сколько production changes (смена партии) в неделю?<em>Complexity killer</em></li>
+      <li>Какой минимальный MOQ для клиента сейчас? Кто хотел меньше и почему отказали?<em>MOQ определяет к каким брендам можно обратиться</em></li>
+      <li>Lead time «заказ → отгрузка» для типового шампуня 250 мл?<em>Industry: 4–6 недель. У нас?</em></li>
+      <li>Какие 3 SKU самые прибыльные и какие 3 самые проблемные (задержки, дефекты, жалобы)?<em>Kill the problem children</em></li>
+    </ol>
+  </div>
+
+  <div class="qgroup">
+    <h3>02 · Клиенты и контракты (8)</h3>
+    <ol start="7">
+      <li>Какие контракты с LUNESI · USUPSO · C-LAB · BILOBROV — exclusive, non-exclusive, tacit?<em>Formalized?</em></li>
+      <li>Какая annual value каждого контракта зафиксирована (если да) или только по заказам?<em>Volume commitments?</em></li>
+      <li>Средний срок payment (DSO)? Клиенты платящие &gt; 60 дней?<em>Cash risk</em></li>
+      <li>Какой % клиентов 2024 остались активными в 2025? И 2026?<em>Retention rate</em></li>
+      <li>Топ-5 клиентов по quarterly revenue за последний год — кто?<em>Concentration snapshot</em></li>
+      <li>Есть ли pending контракты / лиды в обсуждении?<em>Pipeline visibility</em></li>
+      <li>Жалобы клиентов за 12 мес — сколько, по каким причинам?<em>Quality indicator</em></li>
+      <li>Кто ответственный за customer success / QA by client?<em>Accountability mapping</em></li>
+    </ol>
+  </div>
+
+  <div class="qgroup">
+    <h3>03 · Supply chain · сырьё (5)</h3>
+    <ol start="15">
+      <li>Сколько месяцев запаса ключевого сырья на складе (surfactants, consumables)?<em>Подушка на disruption</em></li>
+      <li>Сколько поставщиков по каждому ключевому raw material? Single-source где?<em>Risk map</em></li>
+      <li>Есть ли сырьё с рыночным риском (импорт из Китая, санкционные риски)?<em>2025 realities</em></li>
+      <li>Какой % сырья закупается в TL vs в USD/EUR?<em>FX exposure</em></li>
+      <li>Долги поставщикам — overdue есть?<em>Reputation risk</em></li>
+    </ol>
+  </div>
+
+  <div class="qgroup">
+    <h3>04 · Персонал (5)</h3>
+    <ol start="20">
+      <li>Текучка кадров в 2025? Сколько людей пришло / ушло?<em>Stability indicator</em></li>
+      <li>Открытые вакансии &gt; 2 месяца? Кто конкретно нужен?<em>Growth blockers</em></li>
+      <li>Какие люди — single points of failure (если уйдут — фабрика встанет)?<em>Mitigate!</em></li>
+      <li>Общая настройка / moral — на 1–10?<em>Subjective but critical</em></li>
+      <li>Есть ли процесс onboarding для новых production staff?<em>Scaling bottleneck</em></li>
+    </ol>
+  </div>
+
+  <div class="qgroup">
+    <h3>05 · Финансы и cash (6)</h3>
+    <ol start="25">
+      <li>Ежемесячный cash burn без founder contributions — сколько?<em>True burn rate</em></li>
+      <li>Outstanding debt (банки, поставщики, налоги) — всего?<em>Balance sheet snapshot</em></li>
+      <li>Covenants какие-то нарушаются?<em>Red flags</em></li>
+      <li>Налоговые аудиты — открытые?<em>Hidden liabilities</em></li>
+      <li>Касса АГ — как это классифицировано сейчас в учёте (loan, revenue, capital)?<em>Critical for DD</em></li>
+      <li>Есть ли плановое повышение ставок / выплат сотрудникам в ближайшие 6 мес?<em>Future burn</em></li>
+    </ol>
+  </div>
+
+  <div class="qgroup">
+    <h3>06 · Legal · Compliance · IP (5)</h3>
+    <ol start="31">
+      <li>Все licences (Rukhsat, fire, water) — действующие?<em>Operations legality</em></li>
+      <li>Страховка — что, на сумму, у кого?<em>Property + BI coverage</em></li>
+      <li>Pending litigation? Кто нам должен / кто нас судит?<em>Hidden costs</em></li>
+      <li>Trademarks — ELAN зарегистрирован в каких странах?<em>IP asset value</em></li>
+      <li>Trade secrets (формулы) — как защищены? NDA у технологов?<em>IP protection</em></li>
+    </ol>
+  </div>
+
+  <div class="qgroup">
+    <h3>07 · Рынок · конкуренция (4)</h3>
+    <ol start="36">
+      <li>Кто главные конкуренты-CMO в Турции? По какому параметру мы выигрываем?<em>Positioning</em></li>
+      <li>Какая pricing политика по SKU? Как часто обновляется?<em>Margin management</em></li>
+      <li>Какие 3 тренда beauty рынка сейчас — и как мы их отражаем?<em>Relevance</em></li>
+      <li>Sephora, Douglas, Ulta, DM, Watsons — есть ли контакты / обсуждения?<em>Tier-1 retail</em></li>
+    </ol>
+  </div>
+
+  <div class="qgroup">
+    <h3>08 · Новый бренд · запуск мая 2026 (5)</h3>
+    <ol start="40">
+      <li>На каком этапе готовность — формула · упаковка · брендинг · сайт · сертификация?<em>Timeline check</em></li>
+      <li>Сколько SKU для первого запуска и какая ценовая позиция?<em>Positioning</em></li>
+      <li>Какие каналы — DTC сайт · Amazon · retail · influencers?<em>Go-to-market</em></li>
+      <li>Маркетинг-бюджет Q2 2026 и на что конкретно?<em>Traction investment</em></li>
+      <li>CAC/LTV модель — построена? Какой CAC target?<em>Unit economics</em></li>
+    </ol>
+  </div>
+
+  <div class="qgroup">
+    <h3>09 · Стратегия · capex (3)</h3>
+    <ol start="45">
+      <li>Planned CAPEX следующие 12 мес — что и зачем?<em>Growth investment</em></li>
+      <li>Какие 3 вещи, которые «хотел бы иметь» но пока нет возможности?<em>Wish list</em></li>
+      <li>Что вы считаете главным конкурентным преимуществом завода?<em>The moat</em></li>
+    </ol>
+  </div>
+
+  <div class="qgroup">
+    <h3>10 · Personal · retention (1)</h3>
+    <ol start="48">
+      <li>Что держит вас на этой позиции следующие 5 лет? Что бы сделало уход лёгким?<em>CEO retention critical for DD</em></li>
+    </ol>
+  </div>
+
+  <div class="callout green" style="margin-top:var(--space-10)">
+    <strong>Метод.</strong> Не задавайте все 48 вопросов за раз. Выберите 10–12 наиболее важных для текущего этапа (сейчас — производство, финансы, бренд). Запишите ответы. Через 2 месяца — следующая сессия по другим категориям. Так за год у вас сформируется полная операционная картина.
+  </div>
+</main>
+
+<footer>
+  <div>ELAN Factory · CEO Brief</div>
+  <div>обновлено 2026-04-23</div>
+</footer>
+</body>
+</html>

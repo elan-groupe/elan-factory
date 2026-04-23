@@ -42,9 +42,13 @@ window.ELAN_DATA = {
         total: 49_285.70,
       },
       capex: 87_810.51, // equipment + relocation
-      opProfit: 3_673.55 - 51_999.59 - 49_285.70,
-      opMargin: (3_673.55 - 51_999.59 - 49_285.70) / Math.max(3_673.55, 1),
-      founderInjection: 52_931.77,
+      // Revenue group-view: factory + other direction
+      otherRevenue: 52_931.77, // was "founderInjection" — per user: это доход с другого направления группы
+      totalRevenue: 3_673.55 + 52_931.77, // 56_605.32
+      opProfit: (3_673.55 + 52_931.77) - 51_999.59 - 49_285.70,
+      opMargin: ((3_673.55 + 52_931.77) - 51_999.59 - 49_285.70) / Math.max(3_673.55 + 52_931.77, 1),
+      founderInjection: 52_931.77, // keep legacy for old charts
+
       export: 2_247.60,
       exportShare: 2_247.60 / 3_673.55,
       clients: [
@@ -76,9 +80,12 @@ window.ELAN_DATA = {
         total: 57_078.58,
       },
       capex: 19_512.22,
-      opProfit: 110_592.56 - 95_936.01 - 57_078.58,
-      opMargin: (110_592.56 - 95_936.01 - 57_078.58) / 110_592.56,
+      otherRevenue: 91_019.60, // доход с другого направления группы
+      totalRevenue: 110_592.56 + 91_019.60, // 201_612.16
+      opProfit: (110_592.56 + 91_019.60) - 95_936.01 - 57_078.58,
+      opMargin: ((110_592.56 + 91_019.60) - 95_936.01 - 57_078.58) / (110_592.56 + 91_019.60),
       founderInjection: 91_019.60,
+
       export: 44_289.00 + 35_629.35, // export + privates
       exportShare: (44_289.00 + 35_629.35) / 110_592.56,
       clients: [

@@ -24,7 +24,7 @@
     <a href="cashflow.html">Cash</a>
     <a href="group.html">Группа</a>
     <a href="risk.html">Риски</a>
-    <a href="intercos.html">Intercos</a>
+    <a href="ceo.html">CEO Brief</a>
     <a href="path.html">Путь к $1B</a>
     <a href="brain.html">Brain</a>
   </nav>
@@ -106,14 +106,16 @@ const rowPct = (label, fn) => {
 };
 
 const rows = [
-  row('Revenue (продажи)', x => x.revenue, { bold: true }),
+  row('Revenue завода (SATIŞLAR)', x => x.revenue, { bold: true, indent: 1 }),
+  row('Другое направление группы', x => x.otherRevenue, { bold: true, indent: 1 }),
+  row('Group Revenue (total)', x => x.totalRevenue, { bold: true }),
   row('COGS', x => -x.cogs.total, { bold: true }),
   row('Сырьё', x => -x.cogs.raw_materials, { indent: 1 }),
   row('Упаковка', x => -x.cogs.packaging, { indent: 1 }),
   row('Доставка / карго', x => -x.cogs.shipping, { indent: 1 }),
   row('Таможня при импорте', x => -x.cogs.customs, { indent: 1 }),
-  row('Gross profit', x => x.revenue - x.cogs.total, { bold: true }),
-  rowPct('Gross margin', x => (x.revenue - x.cogs.total) / Math.max(x.revenue, 1)),
+  row('Gross profit', x => x.totalRevenue - x.cogs.total, { bold: true }),
+  rowPct('Gross margin', x => (x.totalRevenue - x.cogs.total) / Math.max(x.totalRevenue, 1)),
   row('OpEx', x => -x.opex.total, { bold: true }),
   row('Персонал', x => -x.opex.personnel, { indent: 1 }),
   row('Содержание фабрики', x => -x.opex.factory, { indent: 1 }),
@@ -122,7 +124,6 @@ const rows = [
   row('Operating profit', x => x.opProfit, { bold: true }),
   rowPct('Operating margin', x => x.opMargin),
   row('CAPEX (cash only)', x => -x.capex, { indent: 0 }),
-  row('Вливания учредителей', x => x.founderInjection),
 ];
 document.querySelector('#pnlTable tbody').innerHTML = rows.join('');
 
@@ -134,7 +135,7 @@ new Chart(document.getElementById('marginChart'), {
     datasets: [
       {
         label: 'Gross margin',
-        data: D.months.map(x => ((x.revenue - x.cogs.total) / Math.max(x.revenue, 1)) * 100),
+        data: D.months.map(x => ((x.totalRevenue - x.cogs.total) / Math.max(x.totalRevenue, 1)) * 100),
         borderColor: CHART_COLORS[0],
         backgroundColor: ctx => chartGradient(ctx.chart.ctx, CHART_COLORS[0], 300),
         fill: true,
@@ -183,22 +184,24 @@ new Chart(document.getElementById('costBreakdown'), {
   },
 });
 
-// Normalized annual
+// Normalized annual (group revenue × 12)
 const nMar = {
-  rev: mar.revenue * 12,
+  rev: mar.totalRevenue * 12,
+  factoryRev: mar.revenue * 12,
+  otherRev: mar.otherRevenue * 12,
   cogs: mar.cogs.total * 12,
   opex: mar.opex.total * 12,
   op: mar.opProfit * 12,
 };
 document.getElementById('normalizedPnl').innerHTML = `
   <div class="grid grid-4">
-    <div class="kpi"><div class="label">Годовая выручка</div><div class="value">${fmt(nMar.rev)}</div><div class="sub">март × 12</div></div>
+    <div class="kpi"><div class="label">Group Revenue / год</div><div class="value">${fmt(nMar.rev)}</div><div class="sub">завод ${fmt(nMar.factoryRev)} + другое ${fmt(nMar.otherRev)}</div></div>
     <div class="kpi"><div class="label">Годовой COGS</div><div class="value">${fmt(nMar.cogs)}</div></div>
     <div class="kpi"><div class="label">Годовой OpEx</div><div class="value">${fmt(nMar.opex)}</div></div>
-    <div class="kpi"><div class="label">Годовой Op Profit</div><div class="value ${nMar.op >= 0 ? 'pos' : 'neg'}">${fmt(nMar.op)}</div><div class="sub">${fmtPct(mar.opMargin)}</div></div>
+    <div class="kpi"><div class="label">Годовой Op Profit</div><div class="value ${nMar.op >= 0 ? 'pos' : 'neg'}">${fmt(nMar.op)}</div><div class="sub">${fmtPct(mar.opMargin)} group margin</div></div>
   </div>
-  <div class="callout amber" style="margin-top: var(--space-4)">
-    Март 2026 annualized: €${(nMar.rev / 1000).toFixed(0)}k выручка, отрицательный op margin из-за единовременного таможенного бэклога (€54k в марте). После нормализации через IPR ожидаем возврат к позитивной марже.
+  <div class="callout green" style="margin-top: var(--space-4)">
+    <strong>Март annualized group revenue ≈ €${(nMar.rev / 1000).toFixed(0)}k</strong> (~$${(nMar.rev * 1.08 / 1000).toFixed(0)}k). Op margin ${fmtPct(mar.opMargin)} — положительная с учётом «другого направления». При нормализации таможни через IPR маржа может выйти на 25% — уровень Intercos.
   </div>`;
 </script>
 </body>

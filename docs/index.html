@@ -24,7 +24,7 @@
     <a href="cashflow.html">Cash</a>
     <a href="group.html">Группа</a>
     <a href="risk.html">Риски</a>
-    <a href="intercos.html">Intercos</a>
+    <a href="ceo.html">CEO Brief</a>
     <a href="path.html">Путь к $1B</a>
     <a href="brain.html">Brain</a>
   </nav>
@@ -97,17 +97,28 @@ document.getElementById('subtitle').textContent =
   `Финансовый обзор группы ELAN — завод в Турции, собственный бренд (запуск май 2026). Цель: продать за $1B за ${D.meta.targetYears.join('–')} лет.`;
 
 const latest = D.months[D.months.length - 1];
-const ytdRevenue = D.months.reduce((s, m) => s + m.revenue, 0);
+const ytdGroupRevenue = D.months.reduce((s, m) => s + m.totalRevenue, 0);
+const ytdFactoryRev = D.months.reduce((s, m) => s + m.revenue, 0);
+const ytdOtherRev = D.months.reduce((s, m) => s + m.otherRevenue, 0);
 const ytdOpProfit = D.months.reduce((s, m) => s + m.opProfit, 0);
 
 // ============ KPIs ============
 const kpis = [
-  { label: 'Выручка · Март', value: fmt(latest.revenue), sub: 'восстановление после переезда' },
-  { label: 'YTD Revenue 2026', value: fmt(ytdRevenue), sub: `за ${D.months.length} мес. (фев + мар)` },
+  {
+    label: 'Group Revenue · Март',
+    value: fmt(latest.totalRevenue),
+    sub: `завод ${fmt(latest.revenue)} + другое напр. ${fmt(latest.otherRevenue)}`,
+    cls: 'pos',
+  },
+  {
+    label: 'YTD Group Revenue',
+    value: fmt(ytdGroupRevenue),
+    sub: `завод ${fmt(ytdFactoryRev)} + другое ${fmt(ytdOtherRev)}`,
+  },
   {
     label: 'Operating P&L · Март',
     value: fmt(latest.opProfit),
-    sub: `Margin ${fmtPct(latest.opMargin)}`,
+    sub: `Margin ${fmtPct(latest.opMargin)} (группа)`,
     cls: latest.opProfit >= 0 ? 'pos' : 'neg',
   },
   {
@@ -116,10 +127,9 @@ const kpis = [
     sub: `из $${D.capex.budget / 1000}k бюджета`,
   },
   {
-    label: 'Вливания учредителей',
-    value: fmt(latest.founderInjection),
-    sub: `${fmtPct(latest.founderInjection / latest.cashIn)} поступлений`,
-    cls: 'warn',
+    label: 'Другое направление · Март',
+    value: fmt(latest.otherRevenue),
+    sub: `${fmtPct(latest.otherRevenue / latest.totalRevenue)} group revenue`,
   },
   { label: 'Инвентарь · Март', value: fmt(D.inventory.total), sub: 'готовая + сырьё + упаковка' },
   {
@@ -147,10 +157,10 @@ new Chart(document.getElementById('revChart'), {
   data: {
     labels: D.months.map(m => m.label),
     datasets: [
-      { label: 'Выручка',         data: D.months.map(m => m.revenue),                     backgroundColor: CHART_COLORS[0] },
-      { label: 'OpEx',            data: D.months.map(m => m.cogs.total + m.opex.total),   backgroundColor: CHART_COLORS[2] },
-      { label: 'CAPEX',           data: D.months.map(m => m.capex),                       backgroundColor: CHART_COLORS[3] },
-      { label: 'Учредители',      data: D.months.map(m => m.founderInjection),            backgroundColor: CHART_COLORS[1] },
+      { label: 'Выручка завода',    data: D.months.map(m => m.revenue),                     backgroundColor: CHART_COLORS[0], stack: 'rev' },
+      { label: 'Другое направление', data: D.months.map(m => m.otherRevenue),                backgroundColor: CHART_COLORS[4], stack: 'rev' },
+      { label: 'OpEx',              data: D.months.map(m => m.cogs.total + m.opex.total),   backgroundColor: CHART_COLORS[2], stack: 'cost' },
+      { label: 'CAPEX',             data: D.months.map(m => m.capex),                       backgroundColor: CHART_COLORS[3], stack: 'cost' },
     ],
   },
   options: {
@@ -174,7 +184,7 @@ document.querySelector('#monthsTable tbody').innerHTML = D.months.map(m => {
     : '<span class="pill green">норма</span>';
   return `<tr>
     <td>${m.label} ${statusPill}</td>
-    <td class="num">${fmt(m.revenue)}</td>
+    <td class="num">${fmt(m.totalRevenue)}</td>
     <td class="num">${fmt(opex)}</td>
     <td class="num ${m.opProfit >= 0 ? 'pos' : 'neg'}">${fmt(m.opProfit)}</td>
     <td class="num ${m.opProfit >= 0 ? 'pos' : 'neg'}">${fmtPct(m.opMargin)}</td>
